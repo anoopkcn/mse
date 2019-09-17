@@ -14,10 +14,10 @@ export default class Calculations extends Component {
         this.fetchCalc();
         // this.timer = setInterval(() => this.fetchCalc(), 1000);
   }
-  // componentWillUnmount() {
-  //       clearInterval(this.timer);
-  //       this.timer = null;
-  // }
+  componentWillUnmount() {
+        clearInterval(this.timer);
+        this.timer = null;
+  }
   async fetchCalc() {
         try {
             this.setState({...this.state, isLoaded: false});
