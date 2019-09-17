@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from 'axios';
 import {API_URL} from './global';
-const url = `${API_URL}/calculations`
+const url = `${API_URL}/calculations?orderby=+id`
 
 export default class Calculations extends Component {
   state = {
