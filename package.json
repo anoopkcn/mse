@@ -1,0 +1,60 @@
+{
+  "name": "elemental",
+  "version": "0.1.0",
+  "private": true,
+  "main": "public/electron.js",
+  "author": "Anoop Chandran",
+  "homepage": "./",
+  "build": {
+    "appId": "com.elemental",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    }
+  },
+  "dependencies": {
+    "axios": "^0.19.0",
+    "cross-env": "^5.2.1",
+    "electron-is-dev": "^1.1.0",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-scripts": "3.1.1",
+    "shelljs": "^0.8.3"
+  },
+  "scripts": {
+    "react_start": "react-scripts start",
+    "react-build": "react-scripts build",
+    "react-test": "react-scripts test",
+    "react-eject": "react-scripts eject",
+    "electron-build": "electron-builder",
+    "release": "npm run react-build && electron-builder --publish=always",
+    "build": "npm run react-build && mkdir -p build/src && cp -r src/shared/. build/src/shared && npm run electron-build",
+    "start": "concurrently \"BROWSER=none npm run react_start\" \"wait-on http://localhost:3000 && electron .\"",
+    "clean": "rm -rf build dist"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.2",
+    "electron": "^6.0.9",
+    "electron-builder": "^21.2.0",
+    "electron-react-devtools": "^0.5.3",
+    "wait-on": "^3.3.0"
+  }
+}
