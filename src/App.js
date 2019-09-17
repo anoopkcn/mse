@@ -3,9 +3,9 @@ import React, {Component} from 'react';
 import './App.css';
 
 import { channels } from './shared/constants';
-import Users from './components/users';
-import Computers from './components/computers';
-import Calculations from './components/calculations';
+// import Users from './components/Users';
+// import Computers from './components/Computers';
+import Calculations from './components/Calculations';
 
 const { ipcRenderer } = window; 
 
@@ -25,12 +25,13 @@ class App extends Component {
   }
   render() {
     const { appName, appVersion } = this.state;
+    console.log(appName,appVersion)
     return (
       <div className="App">
-        <header className="App-header">
+        {/*<header className="App-header">
           <p>{appName} version {appVersion}</p>
         </header>
-        {/*<div className="Users">
+        <div className="Users">
           <Users />
         </div>
         <div className="Computers">

@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import axios from 'axios';
+import CalcTable from "./CalcTable";
+
 import {API_URL} from './global';
-const url = `${API_URL}/calculations?orderby=+id`
+
+const url = `${API_URL}/calculations?orderby=-id`
 
 export default class Calculations extends Component {
   state = {
@@ -12,7 +15,7 @@ export default class Calculations extends Component {
 
   componentDidMount() {
         this.fetchCalc();
-        // this.timer = setInterval(() => this.fetchCalc(), 1000);
+        this.timer = setInterval(() => this.fetchCalc(), 1000);
   }
   componentWillUnmount() {
         clearInterval(this.timer);
@@ -29,21 +32,14 @@ export default class Calculations extends Component {
     };
 
   render() {
-    const { error, isLoaded, items } = this.state;
-    if (error) {
-      return <div>Error: {error.message}</div>;
-    } else if (!isLoaded) {
-      return <div>Loading...</div>;
-    } else {
+    var items= this.state.items
       return (
-         <ul>
-          {items.data.calculations.map(item => (
-            <li key={item.id}>
-              {item.id} {item.attributes.function_name}  {item.attributes.process_label} {item.attributes.process_state}
-            </li>
-          ))}
-        </ul>
-      );
-    }
+          <React.Fragment>
+          {
+            items && items.data && 
+            <CalcTable data={items} />
+          }
+          </React.Fragment>
+        );
   }
 }

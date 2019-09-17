@@ -14,7 +14,7 @@ let mainWindow = null
 
 function initialize () {
     makeSingleInstance()
-    
+    process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true;
     function createWindow() {
       mainWindow = new BrowserWindow({
         width: 900, 
