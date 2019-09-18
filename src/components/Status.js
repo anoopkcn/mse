@@ -1,4 +1,4 @@
-import React, { useEffect , useState} from "react";
+import React, { useEffect, useState } from "react";
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -9,37 +9,37 @@ import SnackbarContent from '@material-ui/core/SnackbarContent';
 import WarningIcon from '@material-ui/icons/Warning';
 import Box from '@material-ui/core/Box';
 
-import {VERDI} from './global'
+import { VERDI } from './global'
 
 
 const exec = window.require('child_process').exec;
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    width: '100%',
-    backgroundColor: theme.palette.background.paper,
-  },
-  inline: {
-    display: 'inline',
-  },
+    root: {
+        width: '100%',
+        backgroundColor: theme.palette.background.paper,
+    },
+    inline: {
+        display: 'inline',
+    },
 }));
 
 const useStyles1 = makeStyles(theme => ({
-  warning: {
-    backgroundColor: amber[300],
-  },
-  icon: {
-    fontSize: 20,
-  },
-  iconVariant: {
-    opacity: 0.9,
-    marginRight: theme.spacing(1),
-  },
-  message: {
-    display: 'flex',
-    alignItems: 'center',
-    color: "#533F02"
-  },
+    warning: {
+        backgroundColor: amber[300],
+    },
+    icon: {
+        fontSize: 20,
+    },
+    iconVariant: {
+        opacity: 0.9,
+        marginRight: theme.spacing(1),
+    },
+    message: {
+        display: 'flex',
+        alignItems: 'center',
+        color: "#533F02"
+    },
 }));
 
 
@@ -48,16 +48,16 @@ export default function Status() {
     const [error, setError] = useState([])
 
     useEffect(() => {
-      exec(`${VERDI} status | grep -E "profile:|repository:|postgres:|rabbitmq:|daemon:"`, (err, stdout, stderr) => { 
-        setData(stdout.split('\n'))
-        setError([err,stderr])
-    });
+        exec(`${VERDI} status | grep -E "profile:|repository:|postgres:|rabbitmq:|daemon:"`, (err, stdout, stderr) => {
+            setData(stdout.split('\n'))
+            setError([err, stderr])
+        });
     }, []);
     const classes = useStyles();
     const classes1 = useStyles1();
-    if (error[0]){
-      return (
-        <List className={classes1.root} dense={true}>
+    if (error[0]) {
+        return (
+            <List className={classes1.root} dense={true}>
            <SnackbarContent
             className={clsx(classes1['warning'], 'noVerdi')}
             aria-describedby="client-snackbar"
@@ -73,9 +73,9 @@ export default function Status() {
           />
         </List>
         )
-    }else{
-      return (
-          <List className={classes.root} dense={true}>
+    } else {
+        return (
+            <List className={classes.root} dense={true}>
             { items.map( (item,i) =>
                     <ListItem key={i}> 
                       <ListItemText primary={item}/>
@@ -83,8 +83,6 @@ export default function Status() {
               )
           }
           </List>
-      )
-  }
+        )
+    }
 }
-
-  

@@ -10,7 +10,7 @@ import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 
 export const mainListItems = (
-  <div>
+    <div>
     <ListItem button>
       <ListItemIcon>
         <DashboardIcon />
@@ -39,7 +39,7 @@ export const mainListItems = (
 );
 
 export const secondaryListItems = (
-  <div>
+    <div>
     <ListSubheader inset>Groups</ListSubheader>
     <ListItem button>
       <ListItemIcon>

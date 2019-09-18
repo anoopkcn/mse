@@ -8,22 +8,22 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    width: '100%',
-    marginTop: theme.spacing(3),
-    overflowX: 'auto',
-  },
-  table: {
-    minWidth: 650,
-  },
+    root: {
+        width: '100%',
+        marginTop: theme.spacing(3),
+        overflowX: 'auto',
+    },
+    table: {
+        minWidth: 650,
+    },
 }));
 
 const CalcTable = (props) => {
-  const classes = useStyles();
-  const items = props.data
+    const classes = useStyles();
+    const items = props.data
 
-  return (
-    <Paper className={classes.root}>
+    return (
+        <Paper className={classes.root}>
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
@@ -45,7 +45,7 @@ const CalcTable = (props) => {
         </TableBody>
       </Table>
     </Paper>
-  );
+    );
 }
 
 export default CalcTable

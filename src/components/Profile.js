@@ -1,4 +1,4 @@
-import React, { useEffect , useState} from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import List from '@material-ui/core/List';
@@ -8,19 +8,19 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import {AIIDA_CONFIG_FILE} from './global'
+import { AIIDA_CONFIG_FILE } from './global'
 
 
 const fs = window.require('fs')
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    width: '100%',
-    backgroundColor: theme.palette.background.paper,
-  },
-  inline: {
-    display: 'inline',
-  },
+    root: {
+        width: '100%',
+        backgroundColor: theme.palette.background.paper,
+    },
+    inline: {
+        display: 'inline',
+    },
 }));
 
 
@@ -28,12 +28,12 @@ export default function Profile() {
     const [items, setData] = useState([]);
 
     useEffect(() => {
-     fs.readFile(AIIDA_CONFIG_FILE, 'utf-8', (err, data) => {setData(JSON.parse(data)) });
+        fs.readFile(AIIDA_CONFIG_FILE, 'utf-8', (err, data) => { setData(JSON.parse(data)) });
     }, []);
 
     const classes = useStyles();
     return (
-            <List className={classes.root}>
+        <List className={classes.root}>
              
               <ListItem alignItems="flex-start">
                 <ListItemAvatar>
@@ -82,19 +82,3 @@ export default function Profile() {
 
     )
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

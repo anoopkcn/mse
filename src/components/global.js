@@ -5,4 +5,4 @@ export const CONFIG_FILE = `${HOME_DIR}/.elemental`
 export const AIIDA_RESTAPI_URL = 'http://localhost:5000/api/v3'
 export const AIIDA_CONFIG_FILE = `${HOME_DIR}/.aiida/config.json`
 export const PYENV_BIN_DIR = `${HOME_DIR}/pyenvs/aiida/bin`
-export const VERDI =`${PYENV_BIN_DIR}/verdi`
+export const VERDI = `${PYENV_BIN_DIR}/verdi`
