@@ -1,1 +1,1 @@
-export const API_URL = 'http://localhost:5000/api/v3'
+export const AIIDA_RESTAPI_URL = 'http://localhost:5000/api/v3'

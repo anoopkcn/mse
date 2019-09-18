@@ -3,9 +3,7 @@ import React, {Component} from 'react';
 import './App.css';
 
 import { channels } from './shared/constants';
-// import Users from './components/Users';
-// import Computers from './components/Computers';
-import Calculations from './components/Calculations';
+import Dashboard from './components/Dashboard'
 
 const { ipcRenderer } = window; 
 
@@ -28,18 +26,7 @@ class App extends Component {
     console.log(appName,appVersion)
     return (
       <div className="App">
-        {/*<header className="App-header">
-          <p>{appName} version {appVersion}</p>
-        </header>
-        <div className="Users">
-          <Users />
-        </div>
-        <div className="Computers">
-          <Computers />
-        </div> */}
-        <div className="Calculations">
-          <Calculations />
-        </div>
+        <Dashboard />
       </div>
 
     );

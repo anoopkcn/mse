@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from 'axios';
-import {API_URL} from './global';
+import {AIIDA_RESTAPI_URL} from './global';
 
 export default class Computers extends Component {
   state = {

@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import axios from 'axios';
 import CalcTable from "./CalcTable";
 
-import {API_URL} from './global';
+import {AIIDA_RESTAPI_URL} from './global';
 
-const url = `${API_URL}/calculations?orderby=-id`
+const url = `${AIIDA_RESTAPI_URL}/calculations?orderby=-id`
 
 export default class Calculations extends Component {
   state = {
@@ -15,7 +15,7 @@ export default class Calculations extends Component {
 
   componentDidMount() {
         this.fetchCalc();
-        this.timer = setInterval(() => this.fetchCalc(), 1000);
+        this.timer = setInterval(() => this.fetchCalc(), 5000);
   }
   componentWillUnmount() {
         clearInterval(this.timer);
@@ -32,7 +32,7 @@ export default class Calculations extends Component {
     };
 
   render() {
-    var items= this.state.items
+    var items = this.state.items
       return (
           <React.Fragment>
           {
