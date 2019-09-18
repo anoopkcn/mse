@@ -69,10 +69,10 @@ export default function Profile() {
                    <Grid item xs={12} md={6}>
                     <List dense={true}>
                       <ListItem> 
-                        <ListItemText primary={items.profiles[items.default_profile].AIIDADB_USER} secondary="db user"/>
+                        <ListItemText primary={items.profiles[items.default_profile].AIIDADB_USER} secondary="db-user"/>
                       </ListItem>
                      <ListItem>   
-                        <ListItemText primary={items.profiles[items.default_profile].AIIDADB_HOST+":"+items.profiles[items.default_profile].AIIDADB_PORT} secondary="db host"/>
+                        <ListItemText primary={items.profiles[items.default_profile].AIIDADB_HOST+":"+items.profiles[items.default_profile].AIIDADB_PORT} secondary="db-host"/>
                       </ListItem>
                    </List>
                    </Grid>

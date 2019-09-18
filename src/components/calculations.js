@@ -14,7 +14,7 @@ export default class Calculations extends Component {
 
   componentDidMount() {
         this.fetchCalc();
-        this.timer = setInterval(() => this.fetchCalc(), 5000);
+        // this.timer = setInterval(() => this.fetchCalc(), 5000);
   }
   componentWillUnmount() {
         clearInterval(this.timer);
