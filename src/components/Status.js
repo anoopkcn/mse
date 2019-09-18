@@ -7,8 +7,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { amber } from '@material-ui/core/colors';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import WarningIcon from '@material-ui/icons/Warning';
+import Box from '@material-ui/core/Box';
 
-import {PYENV_BIN_DIR} from './global'
+import {VERDI} from './global'
 
 
 const exec = window.require('child_process').exec;
@@ -47,7 +48,7 @@ export default function Status() {
     const [error, setError] = useState([])
 
     useEffect(() => {
-      exec(`${PYENV_BIN_DIR}/verdi status | grep -E "profile:|repository:|postgres:|rabbitmq:|daemon:"`, (err, stdout, stderr) => { 
+      exec(`${VERDI} status | grep -E "profile:|repository:|postgres:|rabbitmq:|daemon:"`, (err, stdout, stderr) => { 
         setData(stdout.split('\n'))
         setError([err,stderr])
     });
@@ -63,10 +64,10 @@ export default function Status() {
             message={
               <span id="client-snackbar" className={classes1.message}>
                 <WarningIcon className={clsx(classes1.icon, classes1.iconVariant)} />
-                <p><code>verdi</code> &nbsp;is not defined.
-                  Add path to the <code>bin</code> directory of your python environment in <code>~/.elemental</code> json file.
-                  Example: {'{'}<code>"PYENV_BIN_DIR":"/home/User/pyenv/bin"</code>{'}'}
-                  </p>
+                <Box fontStyle="italic" m={1}>
+                  Did not find python environment. Add path to the <code>bin</code> of your environment in <code>~/.elemental</code> JSON file. 
+                    {'{'}<code>"PYENV_BIN_DIR":"/home/User/pyenv/bin"</code>{'}'}
+                  </Box>
               </span>
             }
           />
