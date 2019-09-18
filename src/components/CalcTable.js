@@ -27,7 +27,7 @@ const CalcTable = (props) => {
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
-            <TableCell>PK</TableCell>
+            <TableCell align="left">PK</TableCell>
             <TableCell align="left">Created</TableCell>
             <TableCell align="left">Process Label</TableCell>
             <TableCell align="left">Process State</TableCell>
