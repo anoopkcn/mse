@@ -10,7 +10,7 @@ export default class Computers extends Component {
   };
 
   componentDidMount() {
-    const url = `${API_URL}/computers`
+    const url = `${AIIDA_RESTAPI_URL}/computers`
     axios.get(url).then(
       result => {
         this.setState({

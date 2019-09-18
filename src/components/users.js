@@ -10,7 +10,7 @@ export default class Users extends Component {
   };
 
   componentDidMount() {
-    const url = `${API_URL}/users`
+    const url = `${AIIDA_RESTAPI_URL}/users`
     axios.get(url).then(
       result => {
         this.setState({
