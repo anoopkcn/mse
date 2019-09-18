@@ -3,10 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import {PYENV_BIN_DIR} from './global'
 
 
-// const fs = window.require('fs')
-// const os = window.require('os')
 const exec = window.require('child_process').exec;
 
 
@@ -24,7 +23,7 @@ export default function Status() {
     const [items, setData] = useState([]);
 
     useEffect(() => {
-      exec('ls', (error, stdout, stderr) => { 
+      exec(`${PYENV_BIN_DIR}/verdi status`, (error, stdout, stderr) => { 
         setData(stdout); 
     });
     }, []);
@@ -33,14 +32,26 @@ export default function Status() {
     console.log(items)
     return (
             <List className={classes.root}>
-              { items && items.options &&
                     <List>
                       <ListItem> 
-                        <ListItemText primary="hello" />
+                        <ListItemText primary="profile :" />
+                      </ListItem>
+                      <ListItem> 
+                        <ListItemText primary="repository :" />
+                      </ListItem> 
+                      <ListItem> 
+                        <ListItemText primary="postgres :" />
+                      </ListItem> 
+                      <ListItem> 
+                        <ListItemText primary="rabbitmq :" />
+                      </ListItem>
+                       <ListItem> 
+                        <ListItemText primary="daemon :" />
                       </ListItem>
                    </List>
-              }
             </List>
 
     )
 }
+
+  

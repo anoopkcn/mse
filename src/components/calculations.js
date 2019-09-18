@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from 'axios';
 import CalcTable from "./CalcTable";
-
 import {AIIDA_RESTAPI_URL} from './global';
 
 const url = `${AIIDA_RESTAPI_URL}/calculations?orderby=-id`

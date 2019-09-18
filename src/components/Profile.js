@@ -8,11 +8,10 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
+import {AIIDA_CONFIG_FILE} from './global'
 
 
 const fs = window.require('fs')
-const os = window.require('os')
-
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -24,13 +23,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const PROFILE_FILE = `${os.homedir()}/.aiida/config.json`
 
 export default function Profile() {
     const [items, setData] = useState([]);
 
     useEffect(() => {
-     fs.readFile(PROFILE_FILE, 'utf-8', (err, data) => {setData(JSON.parse(data)) });
+     fs.readFile(AIIDA_CONFIG_FILE, 'utf-8', (err, data) => {setData(JSON.parse(data)) });
     }, []);
 
     const classes = useStyles();
@@ -61,20 +59,20 @@ export default function Profile() {
                 <Grid item xs={12} md={6}>
                     <List dense={true}>
                       <ListItem> 
-                        <ListItemText primary={'Engine : '+items.profiles[items.default_profile].AIIDADB_ENGINE} />
+                        <ListItemText primary={items.profiles[items.default_profile].AIIDADB_ENGINE} secondary="engine"/>
                       </ListItem>
                      <ListItem> 
-                        <ListItemText primary={'Backend : ' +items.profiles[items.default_profile].AIIDADB_BACKEND} />
+                        <ListItemText primary={items.profiles[items.default_profile].AIIDADB_BACKEND} secondary="backend"/>
                       </ListItem>
                    </List>
                    </Grid>
                    <Grid item xs={12} md={6}>
                     <List dense={true}>
                       <ListItem> 
-                        <ListItemText primary={'DB User : '+items.profiles[items.default_profile].AIIDADB_USER} />
+                        <ListItemText primary={items.profiles[items.default_profile].AIIDADB_USER} secondary="db user"/>
                       </ListItem>
-                     <ListItem> 
-                        <ListItemText primary={'DB Host : '+items.profiles[items.default_profile].AIIDADB_HOST+":"+items.profiles[items.default_profile].AIIDADB_PORT} />
+                     <ListItem>   
+                        <ListItemText primary={items.profiles[items.default_profile].AIIDADB_HOST+":"+items.profiles[items.default_profile].AIIDADB_PORT} secondary="db host"/>
                       </ListItem>
                    </List>
                    </Grid>
