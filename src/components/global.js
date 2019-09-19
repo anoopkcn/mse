@@ -15,7 +15,7 @@ export const VERDI = `${PYENV_BIN_DIR}/verdi`
 export function startServer(){
     // Find if the REST API is running on port 5000 if not start the API... 
     // ... and send PID to main else send the pid of the running API to the main process
-    const procDetails = find('port', 5000).then( (list) => {
+    find('port', 5000).then( (list) => {
         if (!list.length) {
             console.log('Nothing is running on this port');
             exec(`${VERDI}`, ['restapi'], { detached: true , windowsHide: true, stdio: 'ignore'})
@@ -23,6 +23,4 @@ export function startServer(){
             ipcRenderer.send(channels.PID_MESSAGE, list[0].pid)
         }
     })
-
-    return procDetails
 }

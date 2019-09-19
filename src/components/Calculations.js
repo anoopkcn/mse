@@ -21,12 +21,15 @@ export default class Calculations extends Component {
         this.timer = null;
     }
     fetchCalc() {
-        startServer() // TODO dont call this several times
+        if (!this.state.isLoaded){
+           startServer() // TODO dont call this several times
+        }
         axios.get(url).then( result => {
             this.setState({ items: result.data, isLoaded: true });
         }).catch (error => {
             this.setState({ error, isLoaded: true });
         });
+
     };
 
     render() {
