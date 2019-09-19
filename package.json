@@ -25,7 +25,7 @@
         "deb",
         "rpm"
       ]
-    },
+    }
   },
   "dependencies": {
     "@material-ui/core": "^4.4.2",
