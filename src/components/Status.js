@@ -66,7 +66,7 @@ export default function Status() {
                 <WarningIcon className={clsx(classes1.icon, classes1.iconVariant)} />
                 <Box fontStyle="italic" m={1}>
                   Did not find python environment. Add path to the <code>bin</code> of your environment in <code>~/.elemental</code> JSON file. 
-                    {'{'}<code>"PYENV_BIN_DIR":"/home/User/pyenv/bin"</code>{'}'}
+                    {'{'}<code>"python_env": "/path/to/python_env"</code>{'}'}
                   </Box>
               </span>
             }
