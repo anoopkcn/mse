@@ -20,14 +20,12 @@ export default class Calculations extends Component {
         clearInterval(this.timer);
         this.timer = null;
     }
-    async fetchCalc() {
-        try {
-            this.setState({ ...this.state, isLoaded: false });
-            const result = await axios.get(url);
+    fetchCalc() {
+        axios.get(url).then( result => {
             this.setState({ items: result.data, isLoaded: true });
-        } catch (error) {
+        }).catch (error => {
             this.setState({ error, isLoaded: true });
-        }
+        });
     };
 
     render() {
