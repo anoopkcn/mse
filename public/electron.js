@@ -34,7 +34,7 @@ function initialize() {
     var pids = []
     ipcMain.on(channels.PID_MESSAGE, (event, arg) => {
         pids.push(arg)
-        event.sender.send(channels.PID_MESSAGE, pids)
+        // event.sender.send(channels.PID_MESSAGE, pids)
     });
 
     app.on('before-quit', () => {
