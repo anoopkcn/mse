@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "main": "public/electron.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anoopkcn/elemental.git"
+  },
   "author": "Anoop Chandran",
   "description": "Materials simulation lab",
   "homepage": "./",
