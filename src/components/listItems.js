@@ -40,24 +40,12 @@ export const mainListItems = (
 
 export const secondaryListItems = (
     <div>
-    <ListSubheader inset>Groups</ListSubheader>
+    <ListSubheader inset>Pinned Groups</ListSubheader>
     <ListItem button>
       <ListItemIcon>
         <AssignmentIcon />
       </ListItemIcon>
-      <ListItemText primary="MAPI" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="CsPbI3" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="impurity" />
+      <ListItemText primary="" />
     </ListItem>
   </div>
 );
