@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from 'axios';
-import { AIIDA_RESTAPI_URL } from './global';
+import { AIIDA_RESTAPI_URL } from '../lib/global';
 
 export default class Users extends Component {
     state = {

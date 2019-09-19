@@ -9,7 +9,7 @@ import SnackbarContent from '@material-ui/core/SnackbarContent';
 import WarningIcon from '@material-ui/icons/Warning';
 import Box from '@material-ui/core/Box';
 
-import { VERDI } from './global'
+import { VERDI } from '../lib/global'
 
 
 const exec = window.require('child_process').execSync;

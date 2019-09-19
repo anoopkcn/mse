@@ -1,9 +1,9 @@
 // Electron modules are required using window.require()
 import React, { Component } from 'react';
 
-import { channels } from './shared/constants';
-import Dashboard from './components/Dashboard'
-import {writeConfig} from './components/global'
+import { channels } from '../shared/constants';
+import Dashboard from './Dashboard'
+import {writeConfig} from '../lib/global'
 
 const { ipcRenderer } = window;
 

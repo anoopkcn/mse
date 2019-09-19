@@ -8,7 +8,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import { AIIDA_CONFIG_FILE } from './global'
+import { AIIDA_CONFIG_FILE } from '../lib/global'
 
 const fs = window.require('fs')
 
