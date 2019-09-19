@@ -5,7 +5,7 @@ import { AIIDA_RESTAPI_URL, startServer } from './global';
 
 const url = `${AIIDA_RESTAPI_URL}/calculations?orderby=-id`
 
-export default class Calculations extends Component {
+export default class Nodes extends Component {
     state = {
         error: null,
         isLoaded: false,
