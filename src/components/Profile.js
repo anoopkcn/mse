@@ -10,7 +10,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import { AIIDA_CONFIG_FILE } from './global'
 
-
 const fs = window.require('fs')
 
 const useStyles = makeStyles(theme => ({
@@ -23,12 +22,13 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-
 export default function Profile() {
     const [items, setData] = useState([]);
-
     useEffect(() => {
-        fs.readFile(AIIDA_CONFIG_FILE, 'utf-8', (err, data) => { setData(JSON.parse(data)) });
+        if(AIIDA_CONFIG_FILE) {
+          var data = fs.readFileSync(AIIDA_CONFIG_FILE, 'utf-8')
+          setData(JSON.parse(data))
+        }  
     }, []);
 
     const classes = useStyles();

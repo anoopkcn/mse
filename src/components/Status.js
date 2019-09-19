@@ -12,7 +12,7 @@ import Box from '@material-ui/core/Box';
 import { VERDI } from './global'
 
 
-const exec = window.require('child_process').exec;
+const exec = window.require('child_process').execSync;
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -45,17 +45,15 @@ const useStyles1 = makeStyles(theme => ({
 
 export default function Status() {
     const [items, setData] = useState([]);
-    const [error, setError] = useState([])
 
     useEffect(() => {
-        exec(`${VERDI} status | grep -E "profile:|repository:|postgres:|rabbitmq:|daemon:"`, (err, stdout, stderr) => {
-            setData(stdout.split('\n'))
-            setError([err, stderr])
-        });
+        var stdout = exec(`${VERDI} status | grep -E "profile:|repository:|postgres:|rabbitmq:|daemon:"`).toString()
+        setData(stdout.split('\n'))
     }, []);
+
     const classes = useStyles();
     const classes1 = useStyles1();
-    if (error[0]) {
+    if (!VERDI) {
         return (
             <List className={classes1.root} dense={true}>
            <SnackbarContent

@@ -61,6 +61,12 @@ function initialize() {
             appVersion: app.getVersion(),
         });
     });
+    
+    // ipcMain.on(channels.PROCESS_PLATFORM, (event) => {
+    //     event.sender.send(channels.PROCESS_PLATFORM, {
+    //         appPlatform: process.platform
+    //     });
+    // });
 }
 
 // Returns true if the current version of the app should quit instead of

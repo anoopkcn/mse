@@ -1,9 +1,9 @@
-// eElectron modules are required using window.require()
+// Electron modules are required using window.require()
 import React, { Component } from 'react';
-import './App.css';
 
 import { channels } from './shared/constants';
 import Dashboard from './components/Dashboard'
+import {writeConfig} from './components/global'
 
 const { ipcRenderer } = window;
 
@@ -20,7 +20,7 @@ class App extends Component {
             const { appName, appVersion } = arg;
             this.setState({ appName, appVersion });
         });
-
+        writeConfig();
     }
     render() {
         const { appName, appVersion } = this.state;

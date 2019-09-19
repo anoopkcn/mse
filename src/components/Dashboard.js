@@ -16,9 +16,8 @@ import Paper from '@material-ui/core/Paper';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { mainListItems, secondaryListItems } from './listItems';
-import Nodes from './Nodes';
 import Profile from './Profile'
-import Status from './Status'
+import Nodes from './Nodes';
 
 const drawerWidth = 220;
 
@@ -152,12 +151,13 @@ export default function Dashboard() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            {/* Chart */}
+            {/* Chart 
             <Grid item xs={12} md={6} lg={6}>
               <Paper className={fixedHeightPaper}>
                 <Status />
               </Paper>
             </Grid>
+            */}
             {/* Recent Deposits */}
             <Grid item xs={12} md={6} lg={6}>
               <Paper className={fixedHeightPaper}>

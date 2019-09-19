@@ -13,6 +13,7 @@ export default class Nodes extends Component {
     };
 
     componentDidMount() {
+        startServer() 
         this.fetchCalc();
         this.timer = setInterval(() => this.fetchCalc(), 5000);
     }
@@ -21,9 +22,6 @@ export default class Nodes extends Component {
         this.timer = null;
     }
     fetchCalc() {
-        if (!this.state.isLoaded){
-           startServer() // TODO dont call this several times
-        }
         axios.get(url).then( result => {
             this.setState({ items: result.data, isLoaded: true });
         }).catch (error => {
