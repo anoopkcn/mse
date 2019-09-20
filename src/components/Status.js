@@ -10,9 +10,7 @@ import WarningIcon from '@material-ui/icons/Warning';
 import Box from '@material-ui/core/Box';
 
 import { VERDI } from '../lib/global'
-
-
-const exec = window.require('child_process').execSync;
+import {utils} from '../lib/utils'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -47,8 +45,10 @@ export default function Status() {
     const [items, setData] = useState([]);
 
     useEffect(() => {
-        var stdout = exec(`${VERDI} status | grep -E "profile:|repository:|postgres:|rabbitmq:|daemon:"`).toString()
-        setData(stdout.split('\n'))
+        if(VERDI){
+            var stdout = utils.execSync(`${VERDI} status | grep -E "profile:|repository:|postgres:|rabbitmq:|daemon:"`).toString()
+            setData(stdout.split('\n'))
+        }
     }, []);
 
     const classes = useStyles();

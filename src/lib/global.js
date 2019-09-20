@@ -41,10 +41,10 @@ export function readConfig(property) {
 }
 
 ipcRenderer.send(channels.PORT_MESSAGE, PORT);
-ipcRenderer.on(channels.PORT_MESSAGE, (event, arg) => {
-    ipcRenderer.removeAllListeners(channels.PORT_MESSAGE);
-    console.log(arg)
-});
+// ipcRenderer.on(channels.PORT_MESSAGE, (event, arg) => {
+//     ipcRenderer.removeAllListeners(channels.PORT_MESSAGE);
+//     console.log(arg)
+// });
 
 export function startServer() {
     // TODO:: Find if the REST API is running on port PORT if not start the API... 

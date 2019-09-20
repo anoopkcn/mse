@@ -13,10 +13,9 @@ export default class Nodes extends Component {
     };
 
     componentDidMount() {
-        var test = startServer() 
-        console.log(test)
+        startServer() 
         this.fetchCalc();
-        this.timer = setInterval(() => this.fetchCalc(), 5000);
+        this.timer = setInterval(() => this.fetchCalc(), 3000);
     }
     componentWillUnmount() {
         clearInterval(this.timer);
