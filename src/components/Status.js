@@ -10,7 +10,7 @@ import SnackbarContent from "@material-ui/core/SnackbarContent";
 import WarningIcon from "@material-ui/icons/Warning";
 import Box from "@material-ui/core/Box";
 import IconButton from "@material-ui/core/IconButton";
-import ReplayIcon from "@material-ui/icons/Replay";
+import SyncIcon from "@material-ui/icons/Sync";
 import Grid from "@material-ui/core/Grid";
 
 import { VERDI } from "../lib/global";
@@ -122,7 +122,7 @@ export default function Status() {
                 </Grid>
                 <Grid item xs={2}>
                     <ReloadButton aria-label="reload" onClick={updateStatus}>
-                        <ReplayIcon fontSize="small" />
+                        <SyncIcon fontSize="small" />
                     </ReloadButton>
                 </Grid>
             </Grid>
