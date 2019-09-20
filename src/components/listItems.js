@@ -8,6 +8,7 @@ import SettingsInputCompositeIcon from "@material-ui/icons/SettingsInputComposit
 import BarChartIcon from "@material-ui/icons/BarChart";
 import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
 import AssignmentIcon from "@material-ui/icons/Assignment";
+import AccountTreeIcon from '@material-ui/icons/AccountTree';
 
 export const mainListItems = (
   <div>
@@ -28,6 +29,12 @@ export const mainListItems = (
         <BarChartIcon />
       </ListItemIcon>
       <ListItemText primary="Plots" />
+    </ListItem>
+    <ListItem button>
+      <ListItemIcon>
+        <AccountTreeIcon />
+      </ListItemIcon>
+      <ListItemText primary="Provanance" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>
