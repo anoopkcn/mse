@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import axios from 'axios';
+import axios from "axios";
 import CalcTable from "./CalcTable";
-import { AIIDA_RESTAPI_URL, startServer } from '../lib/global';
+import { AIIDA_RESTAPI_URL, startServer } from "../lib/global";
 
-const url = `${AIIDA_RESTAPI_URL}/calculations?orderby=-id`
+const url = `${AIIDA_RESTAPI_URL}/calculations?orderby=-id`;
 
 export default class Nodes extends Component {
     state = {
@@ -13,7 +13,7 @@ export default class Nodes extends Component {
     };
 
     componentDidMount() {
-        startServer() 
+        startServer();
         this.fetchCalc();
         this.timer = setInterval(() => this.fetchCalc(), 3000);
     }
@@ -22,24 +22,24 @@ export default class Nodes extends Component {
         this.timer = null;
     }
     fetchCalc() {
-        if(AIIDA_RESTAPI_URL){
-            axios.get(url).then( result => {
-                this.setState({ items: result.data, isLoaded: true });
-            }).catch (error => {
-                this.setState({ error, isLoaded: true });
-            });
+        if (AIIDA_RESTAPI_URL) {
+            axios
+                .get(url)
+                .then(result => {
+                    this.setState({ items: result.data, isLoaded: true });
+                })
+                .catch(error => {
+                    this.setState({ error, isLoaded: true });
+                });
         }
-    };
+    }
 
     render() {
-        var items = this.state.items
+        var items = this.state.items;
         return (
             <React.Fragment>
-          {
-            items && items.data && 
-            <CalcTable data={items} />
-          }
-          </React.Fragment>
+                {items && items.data && <CalcTable data={items} />}
+            </React.Fragment>
         );
     }
 }

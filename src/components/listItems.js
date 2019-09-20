@@ -1,16 +1,16 @@
-import React from 'react';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import SettingsInputCompositeIcon from '@material-ui/icons/SettingsInputComposite';
-import BarChartIcon from '@material-ui/icons/BarChart';
-import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
-import AssignmentIcon from '@material-ui/icons/Assignment';
+import React from "react";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListSubheader from "@material-ui/core/ListSubheader";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import SettingsInputCompositeIcon from "@material-ui/icons/SettingsInputComposite";
+import BarChartIcon from "@material-ui/icons/BarChart";
+import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
+import AssignmentIcon from "@material-ui/icons/Assignment";
 
 export const mainListItems = (
-    <div>
+  <div>
     <ListItem button>
       <ListItemIcon>
         <DashboardIcon />
@@ -39,7 +39,7 @@ export const mainListItems = (
 );
 
 export const secondaryListItems = (
-    <div>
+  <div>
     <ListSubheader inset>Pinned Groups</ListSubheader>
     <ListItem button>
       <ListItemIcon>

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import axios from 'axios';
-import { AIIDA_RESTAPI_URL } from '../lib/global';
+import axios from "axios";
+import { AIIDA_RESTAPI_URL } from "../lib/global";
 
 export default class Computers extends Component {
     state = {
@@ -10,7 +10,7 @@ export default class Computers extends Component {
     };
 
     componentDidMount() {
-        const url = `${AIIDA_RESTAPI_URL}/computers`
+        const url = `${AIIDA_RESTAPI_URL}/computers`;
         axios.get(url).then(
             result => {
                 this.setState({
@@ -36,12 +36,13 @@ export default class Computers extends Component {
         } else {
             return (
                 <ul>
-          {items.data.computers.map(item => (
-            <li key={item.id}>
-              {item.name} {item.hostname} @ {item.scheduler_type} {item.transport_type}
-            </li>
-          ))}
-        </ul>
+                    {items.data.computers.map(item => (
+                        <li key={item.id}>
+                            {item.name} {item.hostname} @ {item.scheduler_type}{" "}
+                            {item.transport_type}
+                        </li>
+                    ))}
+                </ul>
             );
         }
     }
