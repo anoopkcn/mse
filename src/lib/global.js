@@ -10,9 +10,9 @@ export const CONFIG_FILE = `${HOME_DIR}/.elemental`
 export const PORT = 5791
 export const AIIDA_RESTAPI_URL = `http://localhost:${PORT}/api/v3`
 export const VERDI = (readConfig('python_env')) ? `${readConfig('python_env')}/bin/verdi` : null
+export const AIIDA_CONFIG_FILE = (readConfig('aiida_dir')) ? `${readConfig('aiida_dir')}/config.json` : `${HOME_DIR}/.aiida/config.json`
 
-export var AIIDA_CONFIG_FILE = (readConfig('aiida_dir')) ? `${readConfig('aiida_dir')}/config.json` : `${HOME_DIR}/.aiida/config.json`
-export var processVar={}
+ipcRenderer.send(channels.PORT_MESSAGE, PORT);
 
 export const configTemplate = `
 {
@@ -40,7 +40,6 @@ export function readConfig(property) {
     }
 }
 
-ipcRenderer.send(channels.PORT_MESSAGE, PORT);
 // ipcRenderer.on(channels.PORT_MESSAGE, (event, arg) => {
 //     ipcRenderer.removeAllListeners(channels.PORT_MESSAGE);
 //     console.log(arg)
