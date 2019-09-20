@@ -8,6 +8,8 @@ import { amber } from '@material-ui/core/colors';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import WarningIcon from '@material-ui/icons/Warning';
 import Box from '@material-ui/core/Box';
+import IconButton from '@material-ui/core/IconButton';
+import ReplayIcon from '@material-ui/icons/Replay';
 
 import { VERDI } from '../lib/global'
 import {utils} from '../lib/utils'
@@ -20,6 +22,11 @@ const useStyles = makeStyles(theme => ({
     inline: {
         display: 'inline',
     },
+  reload: {
+    position: 'absolute',
+    top: theme.spacing(1),
+    right: theme.spacing(1),
+  }
 }));
 
 const useStyles1 = makeStyles(theme => ({
@@ -43,7 +50,7 @@ const useStyles1 = makeStyles(theme => ({
 function getStatus(){
     if(VERDI){
         var stdout = utils.execSync(`${VERDI} status | grep -E "profile:|repository:|postgres:|rabbitmq:|daemon:"`).toString()
-        return stdout
+        return stdout.split('\n')
     }else{
         return 'Could not find command verdi'
     }
@@ -53,11 +60,13 @@ export default function Status() {
     const [items, setData] = useState([]);
 
     useEffect(() => {
-            setData(getStatus().split('\n') )
+            setData(getStatus())
     }, []);
 
-    const classes = useStyles();
-    const classes1 = useStyles1();
+    const updateStatus = () => {setData(getStatus());console.log("clicked")}
+    const classes = useStyles()
+    const classes1 = useStyles1()
+
     if (!VERDI) {
         return (
             <List className={classes1.root} dense={true}>
@@ -79,6 +88,9 @@ export default function Status() {
     } else {
         return (
             <List className={classes.root} dense={true}>
+            <IconButton aria-label="reload"  onClick={updateStatus} >
+              <ReplayIcon fontSize="small" />
+            </IconButton>
             { items.map( (item,i) =>
                     <ListItem key={i}> 
                       <ListItemText primary={item}/>
