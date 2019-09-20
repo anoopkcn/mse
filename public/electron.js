@@ -7,6 +7,7 @@ const glob = require('glob');
 const path = require('path');
 const url = require('url');
 const isDev = require('electron-is-dev');
+const execSync = require('child_process').execSync
 
 const { channels } = require(isDev ? '../src/shared/constants' : './src/shared/constants');
 
@@ -31,15 +32,16 @@ function initialize() {
 
     app.on('ready', createWindow);
 
-    var pids = []
-    ipcMain.on(channels.PID_MESSAGE, (event, arg) => {
-        pids.push(arg)
-        // event.sender.send(channels.PID_MESSAGE, pids)
+    var ports = []
+    ipcMain.on(channels.PORT_MESSAGE, (event, arg) => {
+        ports.push(arg)
+        event.sender.send(channels.PORT_MESSAGE, ports)
     });
 
     app.on('before-quit', () => {
-        pids.forEach(pid => {
-            process.kill(pid);
+        ports.forEach(port => {
+            // process.kill(pid);
+            killPort(port, 'tcp')
         })
     })
 
@@ -61,7 +63,7 @@ function initialize() {
             appVersion: app.getVersion(),
         });
     });
-    
+
     // ipcMain.on(channels.PROCESS_PLATFORM, (event) => {
     //     event.sender.send(channels.PROCESS_PLATFORM, {
     //         appPlatform: process.platform
@@ -82,6 +84,21 @@ function makeSingleInstance() {
             mainWindow.focus()
         }
     })
+}
+// KILL a process knowing its PORT over TCP
+function killPort(port, method = 'tcp') {
+    port = Number.parseInt(port)
+    if (!port) {
+        return console.log('Invalid argument provided for port')
+    }
+    if (process.platform === 'win32') {
+        return execSync(
+            `Stop-Process -Id (Get-Net${method === 'UDP' ? 'UDP' : 'TCP'}Connection -LocalPort ${port}).OwningProcess -Force`
+        )
+    }
+    return execSync(
+        `lsof -i ${method === 'udp' ? 'udp' : 'tcp'}:${port} | grep ${method === 'udp' ? 'UDP' : 'LISTEN'} | awk '{print $2}' | xargs kill -9`
+    )
 }
 
 initialize()
