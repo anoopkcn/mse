@@ -13,7 +13,8 @@ export default class Nodes extends Component {
     };
 
     componentDidMount() {
-        startServer() 
+        var test = startServer() 
+        console.log(test)
         this.fetchCalc();
         this.timer = setInterval(() => this.fetchCalc(), 5000);
     }
@@ -22,12 +23,13 @@ export default class Nodes extends Component {
         this.timer = null;
     }
     fetchCalc() {
-        axios.get(url).then( result => {
-            this.setState({ items: result.data, isLoaded: true });
-        }).catch (error => {
-            this.setState({ error, isLoaded: true });
-        });
-
+        if(AIIDA_RESTAPI_URL){
+            axios.get(url).then( result => {
+                this.setState({ items: result.data, isLoaded: true });
+            }).catch (error => {
+                this.setState({ error, isLoaded: true });
+            });
+        }
     };
 
     render() {
