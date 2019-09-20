@@ -39,10 +39,7 @@ function initialize() {
     });
 
     app.on('before-quit', () => {
-        ports.forEach(port => {
-            // process.kill(pid);
-            killPort(port, 'tcp')
-        })
+            killPort(ports[0], 'tcp')
     })
 
     app.on('window-all-closed', () => {
