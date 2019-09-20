@@ -40,15 +40,20 @@ const useStyles1 = makeStyles(theme => ({
     },
 }));
 
+function getStatus(){
+    if(VERDI){
+        var stdout = utils.execSync(`${VERDI} status | grep -E "profile:|repository:|postgres:|rabbitmq:|daemon:"`).toString()
+        return stdout
+    }else{
+        return 'Could not find command verdi'
+    }
+}
 
 export default function Status() {
     const [items, setData] = useState([]);
 
     useEffect(() => {
-        if(VERDI){
-            var stdout = utils.execSync(`${VERDI} status | grep -E "profile:|repository:|postgres:|rabbitmq:|daemon:"`).toString()
-            setData(stdout.split('\n'))
-        }
+            setData(getStatus().split('\n') )
     }, []);
 
     const classes = useStyles();
