@@ -73,7 +73,6 @@ export default function Status() {
 
     const updateStatus = () => {
         setData(getStatus());
-        console.log("clicked");
     };
     const classes = useStyles();
     let verdiStatus;
