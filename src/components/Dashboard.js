@@ -14,7 +14,7 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 // import Link from '@material-ui/core/Link';
 import MenuIcon from "@material-ui/icons/Menu";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import { mainListItems, secondaryListItems } from "./listItems";
 import Profile from "./Profile";
 import Status from "./Status";
@@ -114,7 +114,7 @@ export default function Dashboard() {
     if(open){
         drawerState = (
             <IconButton onClick={handleDrawerClose}>
-               <ChevronLeftIcon fontSize="small"/>
+               <MenuOpenIcon fontSize="small"/>
              </IconButton>
             )
     }else{
