@@ -6,7 +6,7 @@ import ListSubheader from "@material-ui/core/ListSubheader";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import SettingsInputCompositeIcon from "@material-ui/icons/SettingsInputComposite";
 import BarChartIcon from "@material-ui/icons/BarChart";
-import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
+import WbCloudyIcon from '@material-ui/icons/WbCloudy';
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
 
@@ -38,7 +38,7 @@ export const mainListItems = (
     </ListItem>
     <ListItem button>
       <ListItemIcon>
-        <CloudDownloadIcon />
+        <WbCloudyIcon />
       </ListItemIcon>
       <ListItemText primary="Search" />
     </ListItem>
