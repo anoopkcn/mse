@@ -27,15 +27,13 @@ const useStyles = makeStyles(theme => ({
         display: "flex"
     },
     toolbar: {
-        paddingRight: 24, // keep right padding when drawer closed
+        paddingRight: 20, // keep right padding when drawer closed
         backgroundColor: "#115293"
     },
     toolbarIcon: {
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "flex-end",
-        padding: "0 8px",
-        ...theme.mixins.toolbar
+        position: 'absolute',
+        bottom: theme.spacing(2),
+        right: theme.spacing(1),
     },
     appBar: {
         zIndex: theme.zIndex.drawer + 1,
@@ -78,7 +76,7 @@ const useStyles = makeStyles(theme => ({
         }),
         width: theme.spacing(7),
         [theme.breakpoints.up("sm")]: {
-            width: theme.spacing(7)
+            width: theme.spacing(8)
         }
     },
     appBarSpacer: theme.mixins.toolbar,
@@ -112,37 +110,24 @@ export default function Dashboard() {
         setOpen(false);
     };
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+    let drawerState;
+    if(open){
+        drawerState = (
+            <IconButton onClick={handleDrawerClose}>
+               <ChevronLeftIcon fontSize="small"/>
+             </IconButton>
+            )
+    }else{
+        drawerState = (
+        <IconButton onClick={handleDrawerOpen}>
+            <MenuIcon fontSize="small"/>
+         </IconButton>
+        )
+    }
+    // onClick={handleDrawerOpen}
     return (
         <div className={classes.root}>
             <CssBaseline />
-            <AppBar
-                position="absolute"
-                className={clsx(classes.appBar, open && classes.appBarShift)}
-            >
-                <Toolbar className={classes.toolbar}>
-                    <IconButton
-                        edge="start"
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleDrawerOpen}
-                        className={clsx(
-                            classes.menuButton,
-                            open && classes.menuButtonHidden
-                        )}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography
-                        component="h2"
-                        variant="h6"
-                        color="inherit"
-                        noWrap
-                        className={classes.title}
-                    >
-                        Dashboard
-                    </Typography>
-                </Toolbar>
-            </AppBar>
             <Drawer
                 variant="permanent"
                 classes={{
@@ -153,18 +138,12 @@ export default function Dashboard() {
                 }}
                 open={open}
             >
-                <div className={classes.toolbarIcon}>
-                    <IconButton onClick={handleDrawerClose}>
-                        <ChevronLeftIcon />
-                    </IconButton>
-                </div>
-                <Divider />
                 <List>{mainListItems}</List>
-                <Divider />
-                <List>{secondaryListItems}</List>
+                <div className={classes.toolbarIcon}>
+                { drawerState}
+                </div>
             </Drawer>
             <main className={classes.content}>
-                <div className={classes.appBarSpacer} />
                 <Container maxWidth="lg" className={classes.container}>
                     <Grid container spacing={3}>
                         {/* Recent Deposits */}
