@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import axios from "axios";
 import CalcTable from "./CalcTable";
 import { AIIDA_RESTAPI_URL, startServer } from "../lib/global";
 
@@ -23,10 +22,10 @@ export default class Nodes extends Component {
     }
     fetchCalc() {
         if (AIIDA_RESTAPI_URL) {
-            axios
-                .get(url)
+            fetch(url)
+                .then(result => result.json())
                 .then(result => {
-                    this.setState({ items: result.data, isLoaded: true });
+                    this.setState({ items: result, isLoaded: true });
                 })
                 .catch(error => {
                     this.setState({ error, isLoaded: true });
