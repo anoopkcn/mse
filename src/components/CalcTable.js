@@ -18,6 +18,29 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+function getLast(data, loc=1){
+  return data[data.length-loc]
+}
+function statusFormat(status, code){
+    if(code!=null){
+      if(code === 0 ){
+        return (
+        <span>{status}&nbsp;&nbsp;<span style={{color:'green'}}><b>{code}</b></span></span>
+        )
+      }else{
+        return(
+          <span>{status}&nbsp;&nbsp;<span style={{color:'red'}}><b>{code}</b></span></span>
+        )
+      }
+      
+    }else if(status === undefined){
+      return ''
+    }else{
+      return `${status}`
+    }
+}
+
+
 const CalcTable = props => {
   const classes = useStyles();
   const items = props.data;
@@ -29,12 +52,13 @@ const CalcTable = props => {
           <TableRow>
             <TableCell align="left">PK</TableCell>
             <TableCell align="left">Created</TableCell>
-            <TableCell align="left">Calculation Label</TableCell>
-            <TableCell align="left">Calculation State</TableCell>
+            <TableCell align="left">Node Label</TableCell>
+            <TableCell align="left">Node Type</TableCell>
+            <TableCell align="left">Node State</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {items.data.calculations.map(item => (
+          {items.data.nodes.map(item => (
             <TableRow key={item.id}>
               <TableCell component="th" scope="item">
                 {item.id}
@@ -43,9 +67,9 @@ const CalcTable = props => {
               <TableCell align="left">
                 {item.attributes.process_label}
               </TableCell>
-              <TableCell align="left">
-                {item.attributes.process_state} [{item.attributes.exit_status}]
-              </TableCell>
+              <TableCell align="left">{getLast(item.node_type.split('.'),2)}</TableCell>
+              <TableCell align="left">{statusFormat(item.attributes.process_state, item.attributes.exit_status)}</TableCell>
+
             </TableRow>
           ))}
         </TableBody>

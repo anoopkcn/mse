@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import CalcTable from "./CalcTable";
 import { AIIDA_RESTAPI_URL, startServer } from "../lib/global";
 
-const url = `${AIIDA_RESTAPI_URL}/calculations?orderby=-id`;
+const url = `${AIIDA_RESTAPI_URL}/nodes?orderby=-id`;
 
 export default class Nodes extends Component {
     state = {
