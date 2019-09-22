@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import CalcTable from "./CalcTable";
+import VirtualDataTable from "./VirtualDataTable";
 import { AIIDA_RESTAPI_URL, startServer } from "../lib/global";
 
 const url = `${AIIDA_RESTAPI_URL}/nodes?orderby=-id`;
@@ -37,7 +37,7 @@ export default class Nodes extends Component {
         var items = this.state.items;
         return (
             <React.Fragment>
-                {items && items.data && <CalcTable data={items} />}
+                {items && items.data && <VirtualDataTable data={items} />}
             </React.Fragment>
         );
     }
