@@ -8,10 +8,10 @@ const url = `${AIIDA_RESTAPI_URL}/nodes?orderby=-id`;
 
 const useStyles = makeStyles(theme => ({
     root: {
-         minHeight: 300, 
-         width: "100%",
-         // boxShadow: '0 0 0 0',
-    },
+        minHeight: 300,
+        width: "100%"
+        // boxShadow: '0 0 0 0',
+    }
 }));
 
 function fetchCalc() {
@@ -19,10 +19,14 @@ function fetchCalc() {
         return fetch(url)
             .then(result => result.json())
             .then(result => {
-                return result;
+                if(result.data){
+                    return result
+                }else{
+                    return false
+                }
             })
             .catch(error => {
-                return error;
+                return false;
             });
     }
 }
@@ -35,25 +39,32 @@ export default function Nodes() {
         startServer();
         fetchCalc()
             .then(result => {
-                setData(result);
-                setLoaded(true);
+                if(result){
+                    setData(result);
+                    setLoaded(true);
+                }
             })
             .catch(error => setLoaded(false));
+
         setInterval(() => {
             fetchCalc()
                 .then(result => {
-                    setData(result);
+                    if(result){
+                        setData(result);
+                        setLoaded(true);
+                    }
                 })
-                .catch(error => setLoaded(true));
-        }, 15000);
+                .catch(error => {
+                    setLoaded(false);
+                });
+        }, 5000);
     }, []);
-
-    // console.log(isLoaded);
+    console.log(isLoaded);
     const classes = useStyles();
     return (
         <React.Fragment>
             <Paper className={classes.root}>
-                {isLoaded && data.data && <NodesTable data={data} />}
+                {isLoaded && <NodesTable data={data} />}
             </Paper>
         </React.Fragment>
     );
