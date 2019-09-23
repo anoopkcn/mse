@@ -2,11 +2,23 @@ import React from "react";
 import { forwardRef } from 'react';
 import MaterialTable from 'material-table'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles(theme => ({
+    root: {
+         boxShadow: '0 0 0 0',
+    },
+}));
+
+
 const NodesTable = props =>{
     var allNodes = props.data.data.nodes
+    const classes = useStyles();
+
     function getLast(data, loc=1){
       return data[data.length-loc]
     }
+
     function statusFormat(status, code){
         if(code!=null){
           if(code === 0 ){
@@ -27,6 +39,7 @@ const NodesTable = props =>{
     }
     return (
       <MaterialTable
+        className = {classes.root}
         title="Nodes"
         options={{
           pageSize: 5,
