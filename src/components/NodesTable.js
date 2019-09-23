@@ -41,9 +41,21 @@ const NodesTable = props =>{
       <MaterialTable
         className = {classes.root}
         title="Nodes"
+        localization ={{
+          pagination:{
+            previousTooltip:'',
+            nextTooltip:'',
+            firstTooltip:'',
+            lastTooltip:'',
+          },
+          toolbar:{
+            searchTooltip: '',
+          }
+        }}
         options={{
-          pageSize: 5,
-          sorting: true
+          pageSize: 7,
+          pageSizeOptions:[],
+          sorting: true,
         }}
         icons={{
           SortArrow: forwardRef((props, ref) => <ExpandLessIcon {...props} ref={ref} />),
