@@ -56,6 +56,7 @@ const useStyles = makeStyles(theme => ({
 export default function App() {
     const [appName, setAppName] = useState("");
     const [appVersion, setAppVersion] = useState("");
+    const [open, setOpen] = useState(false);
 
     useEffect(() => {
         ipcRenderer.send(channels.APP_INFO);
@@ -68,7 +69,6 @@ export default function App() {
     }, []);
 
     const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
     const handleDrawerOpen = () => {
         setOpen(true);
     };
