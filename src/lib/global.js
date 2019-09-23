@@ -68,8 +68,9 @@ export function startServer() {
                             windowsHide: true,
                             stdio: "ignore"
                         });
+                        return "Server Started"
                     } else {
-                        return `Could not start the REST API`;
+                        return "Could not start the REST API";
                     }
                 })
                 .close();

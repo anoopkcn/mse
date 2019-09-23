@@ -42,8 +42,8 @@ export default function Nodes() {
     const [data, setData] = useState({});
     const [isLoaded, setLoaded] = useState(false);
 
+    startServer();
     useEffect(() => {
-        startServer();
         fetchCalc()
             .then(result => {
                 if(result){
@@ -66,6 +66,7 @@ export default function Nodes() {
                 });
         }, 5000);
     }, []);
+
     console.log(isLoaded);
     const classes = useStyles();
     let nodesTable;
