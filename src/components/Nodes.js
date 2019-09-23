@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Paper from "@material-ui/core/Paper";
+// import Container from '@material-ui/core/Container';
+import RotateRightIcon from '@material-ui/icons/RotateRight';
 import { makeStyles } from "@material-ui/core/styles";
 import NodesTable from "./NodesTable";
+import '../assets/css/animations.css'
 import { AIIDA_RESTAPI_URL, startServer } from "../lib/global";
 
 const url = `${AIIDA_RESTAPI_URL}/nodes?orderby=-id`;
@@ -11,7 +14,11 @@ const useStyles = makeStyles(theme => ({
         minHeight: 300,
         width: "100%"
         // boxShadow: '0 0 0 0',
-    }
+    },
+    loading:{
+        textAlign: 'center',
+        paddingTop: 132.5, // (minheight/2) - (imageSize/2)
+    },
 }));
 
 function fetchCalc() {
@@ -61,10 +68,20 @@ export default function Nodes() {
     }, []);
     console.log(isLoaded);
     const classes = useStyles();
+    let nodesTable;
+    if (isLoaded && data){
+        nodesTable = <NodesTable data={data} />
+    }else{
+        nodesTable = (
+            <div className={classes.loading}>
+                <RotateRightIcon className='Loading'  color="disabled" fontSize='large' />
+            </div>
+        )
+    }
     return (
         <React.Fragment>
             <Paper className={classes.root}>
-                {isLoaded && <NodesTable data={data} />}
+                {nodesTable}
             </Paper>
         </React.Fragment>
     );
