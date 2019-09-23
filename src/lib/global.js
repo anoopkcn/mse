@@ -3,6 +3,7 @@ import { utils } from "./utils";
 
 const os = window.require("os");
 const fs = window.require("fs");
+const net = window.require("net");
 const { ipcRenderer } = window;
 
 export const HOME_DIR = os.homedir();
@@ -52,11 +53,26 @@ export function readConfig(property) {
 export function startServer() {
     // TODO:: Find if the REST API is running on port PORT if not start the API...
     // ... and send PID to main else send the pid of the running API to the main process
-    if (VERDI) {
-        utils.spawn(`${VERDI}`, ["restapi", "-P", `${PORT}`], {
-            detached: true,
-            windowsHide: true,
-            stdio: "ignore"
-        });
-    }
+    //
+    var tester = net
+        .createServer()
+        .once("error", function(err) {
+            return `Port ${PORT} is occupied`;
+        })
+        .once("listening", function() {
+            tester
+                .once("close", function() {
+                    if (VERDI) {
+                        utils.spawn(`${VERDI}`, ["restapi", "-P", `${PORT}`], {
+                            detached: true,
+                            windowsHide: true,
+                            stdio: "ignore"
+                        });
+                    } else {
+                        return `Could not start the REST API`;
+                    }
+                })
+                .close();
+        })
+        .listen(PORT);
 }
