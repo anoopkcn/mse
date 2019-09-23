@@ -19,7 +19,7 @@ import { utils } from "../lib/utils";
 const useStyles = makeStyles(theme => ({
     root: {
         width: "100%",
-        backgroundColor: theme.palette.background.paper
+        backgroundColor: theme.palette.background.paper,
     },
     inline: {
         display: "inline"
