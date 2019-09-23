@@ -29,7 +29,7 @@ const NodesTable = props =>{
       <MaterialTable
         title="Nodes"
         options={{
-          pageSize: 10,
+          pageSize: 5,
           sorting: true
         }}
         icons={{
