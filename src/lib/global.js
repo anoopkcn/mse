@@ -56,12 +56,12 @@ export function startServer() {
     //
     var tester = net
         .createServer()
-        .once("error", function(err) {
+        .once("error", (err) => {
             return `Port ${PORT} is occupied`;
         })
-        .once("listening", function() {
+        .once("listening", () => {
             tester
-                .once("close", function() {
+                .once("close", () => {
                     if (VERDI) {
                         utils.spawn(`${VERDI}`, ["restapi", "-P", `${PORT}`], {
                             detached: true,
