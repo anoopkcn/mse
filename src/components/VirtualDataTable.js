@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import { withStyles } from "@material-ui/core/styles";
 import TableCell from "@material-ui/core/TableCell";
-import Paper from "@material-ui/core/Paper";
 import { AutoSizer, Column, Table } from "react-virtualized";
 
 const styles = theme => ({
@@ -219,13 +218,11 @@ const columns = [
 
 export default function VirtualDataTable(props) {
     const rows = props.data.data.nodes;
-    return (
-        <Paper style={{ height: 500, width: "100%" }}>
+    return ( 
             <VirtualizedTable
                 rowCount={rows.length}
                 rowGetter={({ index }) => rows[index]}
                 columns={columns}
             />
-        </Paper>
     );
 }
