@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 import MaterialTable from 'material-table'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 const NodesTable = props =>{
-    var allNodes = props.data.data.calculations
+    var allNodes = props.data.data.nodes
     // console.log(allNodes[0].attributes)
     function getLast(data, loc=1){
       return data[data.length-loc]

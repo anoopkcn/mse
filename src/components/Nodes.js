@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import VirtualDataTable from "./VirtualDataTable";
+import Paper from "@material-ui/core/Paper";
+import NodesTable from "./NodesTable";
 import { AIIDA_RESTAPI_URL, startServer } from "../lib/global";
 
 const url = `${AIIDA_RESTAPI_URL}/nodes?orderby=-id`;
@@ -37,7 +38,9 @@ export default class Nodes extends Component {
         var items = this.state.items;
         return (
             <React.Fragment>
-                {items && items.data && <VirtualDataTable data={items} />}
+            <Paper style={{ height: 500, width: "100%" }}>
+                {items && items.data && <NodesTable data={items} />}
+            </Paper>
             </React.Fragment>
         );
     }
