@@ -4,13 +4,21 @@ import MaterialTable from 'material-table'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 const NodesTable = props =>{
     var allNodes = props.data.data.nodes
-    // console.log(allNodes[0].attributes)
     function getLast(data, loc=1){
       return data[data.length-loc]
     }
     function statusFormat(status, code){
         if(code!=null){
-          return `${status}[${code}]`
+          if(code === 0 ){
+            return (
+            <span>{status}&nbsp;&nbsp;(<span style={{color:'green'}}><b>{code}</b></span>)</span>
+            )
+          }else{
+            return(
+              <span>{status}&nbsp;&nbsp;(<span style={{color:'red'}}><b>{code}</b></span>)</span>
+            )
+          }
+          
         }else if(status === undefined){
           return ''
         }else{
