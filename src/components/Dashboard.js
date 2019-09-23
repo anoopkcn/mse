@@ -42,19 +42,16 @@ export default function Dashboard() {
         <main className={classes.content}>
             <Container maxWidth="lg" className={classes.container}>
                 <Grid container spacing={3}>
-                    {/* Recent Deposits */}
                     <Grid item xs={12} md={6} lg={6}>
                         <Paper className={fixedHeightPaper}>
                             <Profile />
                         </Paper>
                     </Grid>
-                    {/* Chart */}
                     <Grid item xs={12} md={6} lg={6}>
                         <Paper className={fixedHeightPaper}>
                             <Status />
                         </Paper>
                     </Grid>
-                    {/* Recent Orders */}
                     <Grid item xs={12}>
                         <Nodes />
                     </Grid>
