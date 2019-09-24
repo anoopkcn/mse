@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
     },
     loading: {
         textAlign: "center",
-        paddingTop: 132.5 // (minheight/2) - (imageSize/2)
+        paddingTop: 132.5 // (minheight/2) - (iconSize/2)
     }
 }));
 
