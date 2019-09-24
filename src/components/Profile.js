@@ -8,9 +8,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
-import { AIIDA_CONFIG_FILE } from "../lib/global";
-
-const fs = window.require("fs");
+import { db_profile } from "../lib/global";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,11 +21,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Profile() {
-  const [items, setData] = useState([]);
+  const [profile, setData] = useState([]);
   useEffect(() => {
-    if (AIIDA_CONFIG_FILE) {
-      var data = fs.readFileSync(AIIDA_CONFIG_FILE, "utf-8");
-      setData(JSON.parse(data));
+    if (db_profile) {
+      setData(db_profile);
     }
   }, []);
 
@@ -38,10 +35,10 @@ export default function Profile() {
         <ListItemAvatar>
           <Avatar alt="User" src="" />
         </ListItemAvatar>
-        {items && items.options && (
+        {profile && profile.options && (
           <ListItemText
             primary={
-              items.options.user_first_name + " " + items.options.user_last_name
+              profile.options.user_first_name + " " + profile.options.user_last_name
             }
             secondary={
               <React.Fragment>
@@ -51,7 +48,7 @@ export default function Profile() {
                   className={classes.inline}
                   color="textPrimary"
                 >
-                  {items.default_profile}&nbsp;-&nbsp;
+                  {profile.default_profile}&nbsp;-&nbsp;
                 </Typography>
                 default profile
               </React.Fragment>
@@ -60,20 +57,20 @@ export default function Profile() {
         )}
       </ListItem>
       <Divider />
-      {items && items.options && (
+      {profile && profile.options && (
         <Grid container spacing={1}>
           <Grid item xs={12} md={6}>
             <List dense={true}>
               <ListItem>
                 <ListItemText
-                  primary={items.profiles[items.default_profile].AIIDADB_ENGINE}
+                  primary={profile.profiles[profile.default_profile].AIIDADB_ENGINE}
                   secondary="engine"
                 />
               </ListItem>
               <ListItem>
                 <ListItemText
                   primary={
-                    items.profiles[items.default_profile].AIIDADB_BACKEND
+                    profile.profiles[profile.default_profile].AIIDADB_BACKEND
                   }
                   secondary="backend"
                 />
@@ -84,16 +81,16 @@ export default function Profile() {
             <List dense={true}>
               <ListItem>
                 <ListItemText
-                  primary={items.profiles[items.default_profile].AIIDADB_USER}
+                  primary={profile.profiles[profile.default_profile].AIIDADB_USER}
                   secondary="db-user"
                 />
               </ListItem>
               <ListItem>
                 <ListItemText
                   primary={
-                    items.profiles[items.default_profile].AIIDADB_HOST +
+                    profile.profiles[profile.default_profile].AIIDADB_HOST +
                     ":" +
-                    items.profiles[items.default_profile].AIIDADB_PORT
+                    profile.profiles[profile.default_profile].AIIDADB_PORT
                   }
                   secondary="db-host"
                 />

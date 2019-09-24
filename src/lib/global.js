@@ -50,6 +50,9 @@ export function readConfig(property) {
 //     console.log(arg)
 // });
 
+var data = fs.readFileSync(AIIDA_CONFIG_FILE, "utf-8");
+export const db_profile = JSON.parse(data)
+
 export function startServer() {
     // TODO:: Find if the REST API is running on port PORT if not start the API...
     // ... and send PID to main else send the pid of the running API to the main process
