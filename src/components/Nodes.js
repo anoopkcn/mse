@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Paper from "@material-ui/core/Paper";
 // import Container from '@material-ui/core/Container';
-import RotateRightIcon from '@material-ui/icons/RotateRight';
+import RotateRightIcon from "@material-ui/icons/RotateRight";
 import { makeStyles } from "@material-ui/core/styles";
 import NodesTable from "./NodesTable";
-import '../assets/css/animations.css'
+import "../assets/css/animations.css";
 import { AIIDA_RESTAPI_URL, startServer } from "../lib/global";
 
 const url = `${AIIDA_RESTAPI_URL}/nodes?orderby=-id`;
@@ -15,10 +15,10 @@ const useStyles = makeStyles(theme => ({
         width: "100%"
         // boxShadow: '0 0 0 0',
     },
-    loading:{
-        textAlign: 'center',
-        paddingTop: 132.5, // (minheight/2) - (imageSize/2)
-    },
+    loading: {
+        textAlign: "center",
+        paddingTop: 132.5 // (minheight/2) - (imageSize/2)
+    }
 }));
 
 function fetchCalc() {
@@ -26,16 +26,16 @@ function fetchCalc() {
         return fetch(url)
             .then(result => result.json())
             .then(result => {
-                if(result.data){
-                    return result
-                }else{
-                    return false
+                if (result.data) {
+                    return result;
+                } else {
+                    return false;
                 }
             })
             .catch(error => {
                 return false;
             });
-    }
+    } // else load from the local database https://node-postgres.com/
 }
 
 export default function Nodes() {
@@ -46,7 +46,7 @@ export default function Nodes() {
     useEffect(() => {
         fetchCalc()
             .then(result => {
-                if(result){
+                if (result) {
                     setData(result);
                     setLoaded(true);
                 }
@@ -56,7 +56,7 @@ export default function Nodes() {
         setInterval(() => {
             fetchCalc()
                 .then(result => {
-                    if(result){
+                    if (result) {
                         setData(result);
                         setLoaded(true);
                     }
@@ -70,20 +70,22 @@ export default function Nodes() {
     console.log(isLoaded);
     const classes = useStyles();
     let nodesTable;
-    if (isLoaded && data){
-        nodesTable = <NodesTable data={data} />
-    }else{
+    if (isLoaded && data) {
+        nodesTable = <NodesTable data={data} />;
+    } else {
         nodesTable = (
             <div className={classes.loading}>
-                <RotateRightIcon className='Loading'  color="disabled" fontSize='large' />
+                <RotateRightIcon
+                    className="Loading"
+                    color="disabled"
+                    fontSize="large"
+                />
             </div>
-        )
+        );
     }
     return (
         <React.Fragment>
-            <Paper className={classes.root}>
-                {nodesTable}
-            </Paper>
+            <Paper className={classes.root}>{nodesTable}</Paper>
         </React.Fragment>
     );
 }
