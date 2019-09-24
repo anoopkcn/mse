@@ -5,7 +5,7 @@ import RotateRightIcon from "@material-ui/icons/RotateRight";
 import { makeStyles } from "@material-ui/core/styles";
 import NodesTable from "./NodesTable";
 import "../assets/css/animations.css";
-import { AIIDA_RESTAPI_URL, connectServer, db_profile} from "../lib/global";
+import { AIIDA_RESTAPI_URL, startRestAPI, db_profile, db } from "../lib/global";
 
 const url = `${AIIDA_RESTAPI_URL}/nodes?orderby=-id`;
 
@@ -37,23 +37,24 @@ function fetchNode() {
             });
     } // else load from the local database https://node-postgres.com/
 }
-console.log(db_profile)
+
 export default function Nodes() {
     const [data, setData] = useState({});
     const [isLoaded, setLoaded] = useState(false);
+    const [isDatabase, setDatabase] = useState(true);
+    const classes = useStyles();
+    const queryText = "select * from db_dbnode";
 
-    connectServer();
+    if (!isDatabase) {
+        startRestAPI();
+    }
     useEffect(() => {
-        fetchNode()
-            .then(result => {
-                if (result) {
-                    setData(result);
-                    setLoaded(true);
-                }
-            })
-            .catch(error => setLoaded(false));
-
-        setInterval(() => {
+        if (db_profile) {
+            db.query(queryText, (err, res) => {
+                setData(res.rows);
+                setLoaded(true);
+            });
+        } else {
             fetchNode()
                 .then(result => {
                     if (result) {
@@ -61,14 +62,30 @@ export default function Nodes() {
                         setLoaded(true);
                     }
                 })
-                .catch(error => {
-                    setLoaded(false);
+                .catch(error => setLoaded(false));
+        }
+        setInterval(() => {
+            if (db_profile) {
+                db.query(queryText, (err, res) => {
+                    setData(res.rows);
+                    setLoaded(true);
                 });
+            } else {
+                fetchNode()
+                    .then(result => {
+                        if (result) {
+                            setData(result);
+                            setLoaded(true);
+                        }
+                    })
+                    .catch(error => {
+                        setLoaded(false);
+                    });
+            }
         }, 5000);
     }, []);
 
     console.log(isLoaded);
-    const classes = useStyles();
     let nodesTable;
     if (isLoaded && data) {
         nodesTable = <NodesTable data={data} />;

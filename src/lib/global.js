@@ -4,6 +4,8 @@ import { utils } from "./utils";
 const os = window.require("os");
 const fs = window.require("fs");
 const net = window.require("net");
+const { Pool } = window.require('pg')
+
 const { ipcRenderer } = window;
 
 export const HOME_DIR = os.homedir();
@@ -16,6 +18,7 @@ export const VERDI = readConfig("python_env")
 export const AIIDA_CONFIG_FILE = readConfig("aiida_dir")
     ? `${readConfig("aiida_dir")}/config.json`
     : null; //`${HOME_DIR}/.aiida/config.json`
+export var db;
 
 var data ;
 if(AIIDA_CONFIG_FILE){
@@ -58,9 +61,10 @@ export function readConfig(property) {
 //     console.log(arg)
 // });
 
-export function connectServer() {
+export function startRestAPI() {
     // TODO:: Find if the REST API is running on port PORT if not start the API...
     // ... and send PID to main else send the pid of the running API to the main process
+    //
     //
     var tester = net
         .createServer()
@@ -84,4 +88,19 @@ export function connectServer() {
                 .close();
         })
         .listen(PORT);
+}
+
+if(db_profile){
+const pool = new Pool({
+      user: db_profile.profiles[db_profile.default_profile].AIIDADB_USER,
+      host: db_profile.profiles[db_profile.default_profile].AIIDADB_HOST,
+      database: db_profile.profiles[db_profile.default_profile].AIIDADB_NAME,
+      password: db_profile.profiles[db_profile.default_profile].AIIDADB_PASS,
+      port: db_profile.profiles[db_profile.default_profile].AIIDADB_PORT,
+    })
+ db = {
+  query: (text, callback) => {
+    return pool.query(text, callback)
+  },
+}
 }
