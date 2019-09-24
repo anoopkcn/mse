@@ -11,7 +11,7 @@ const url = `${AIIDA_RESTAPI_URL}/nodes?orderby=-id`;
 
 const useStyles = makeStyles(theme => ({
     root: {
-        minHeight: 300,
+        minHeight: 500,
         width: "100%"
         // boxShadow: '0 0 0 0',
     },
@@ -51,8 +51,10 @@ export default function Nodes() {
     useEffect(() => {
         if (db_profile) {
             db.query(queryText, (err, res) => {
+                if (!err){
                 setData(res.rows);
                 setLoaded(true);
+                }
             });
         } else {
             fetchNode()
@@ -67,8 +69,10 @@ export default function Nodes() {
         setInterval(() => {
             if (db_profile) {
                 db.query(queryText, (err, res) => {
+                    if(!err){
                     setData(res.rows);
                     setLoaded(true);
+                    }
                 });
             } else {
                 fetchNode()

@@ -60,7 +60,7 @@ const NodesTable = props =>{
           }
         }}
         options={{
-          pageSize: 7,
+          pageSize: 15,
           pageSizeOptions:[],
           sorting: true,
         }}

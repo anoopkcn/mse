@@ -162,7 +162,7 @@ export default function App() {
                                         color={activeColor(isProfile)}
                                     />
                                 </ListItemIcon>
-                                <ListItemText primary="Dashboard" />
+                                <ListItemText primary="Profile" />
                             </ListItem>
                             <ListItem button onClick={switchDashboard}>
                                 <ListItemIcon>
