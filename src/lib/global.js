@@ -58,7 +58,7 @@ export function readConfig(property) {
 //     console.log(arg)
 // });
 
-export function startServer() {
+export function connectServer() {
     // TODO:: Find if the REST API is running on port PORT if not start the API...
     // ... and send PID to main else send the pid of the running API to the main process
     //
