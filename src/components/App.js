@@ -1,5 +1,5 @@
 // Electron modules are required using window.require()
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import MenuOpenIcon from "@material-ui/icons/MenuOpen";
