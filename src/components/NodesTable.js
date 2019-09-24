@@ -3,7 +3,6 @@ import { forwardRef } from 'react';
 import MaterialTable from 'material-table'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import { makeStyles } from "@material-ui/core/styles";
-import {db_profile} from '../lib/global'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -13,12 +12,7 @@ const useStyles = makeStyles(theme => ({
 
 
 const NodesTable = props =>{
-  var allNodes;
-  if(db_profile){
-      allNodes = props.data
-  }else{
-    allNodes= props.data.data.nodes
-  }
+    var allNodes = props.data
 
     const classes = useStyles();
 
