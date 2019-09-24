@@ -35,7 +35,7 @@ function fetchNode() {
             .catch(error => {
                 return false;
             });
-    } // else load from the local database https://node-postgres.com/
+    } 
 }
 
 export default function Nodes() {
@@ -82,7 +82,7 @@ export default function Nodes() {
                         setLoaded(false);
                     });
             }
-        }, 5000);
+        }, 7000);
     }, []);
 
     console.log(isLoaded);
