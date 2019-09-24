@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-function fetchCalc() {
+function fetchNode() {
     if (AIIDA_RESTAPI_URL) {
         return fetch(url)
             .then(result => result.json())
@@ -44,7 +44,7 @@ export default function Nodes() {
 
     startServer();
     useEffect(() => {
-        fetchCalc()
+        fetchNode()
             .then(result => {
                 if (result) {
                     setData(result);
@@ -54,7 +54,7 @@ export default function Nodes() {
             .catch(error => setLoaded(false));
 
         setInterval(() => {
-            fetchCalc()
+            fetchNode()
                 .then(result => {
                     if (result) {
                         setData(result);
