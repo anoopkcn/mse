@@ -8,11 +8,21 @@ import MenuIcon from "@material-ui/icons/Menu";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import SettingsInputCompositeIcon from "@material-ui/icons/SettingsInputComposite";
+import BarChartIcon from "@material-ui/icons/BarChart";
+import WbCloudyIcon from "@material-ui/icons/WbCloudy";
+import AccountTreeIcon from "@material-ui/icons/AccountTree";
 
 import { channels } from "../shared/constants";
 import Dashboard from "./Dashboard";
+import Plugins from "./Plugins";
 import { writeConfig } from "../lib/global";
-import { mainListItems } from "./listItems";
+// import ToolBar from "./listItems";
+// import { toolbar } from "../lib/global";
 
 const { ipcRenderer } = window;
 
@@ -57,8 +67,27 @@ export default function App() {
     const [appName, setAppName] = useState("");
     const [appVersion, setAppVersion] = useState("");
     const [open, setOpen] = useState(false);
+    const [isDashboard, setDashboard] = useState(true);
+    const [isPlugins, setPlugins] = useState(false);
 
-    useEffect(() => {
+    const activeColor = isActive => {
+        if (isActive) {
+            return "primary";
+        } else {
+            return "disabled";
+        }
+    };
+
+    const switchDashboard = () => {
+        setDashboard(true);
+        setPlugins(false);
+    };
+    const switchPlugins = () => {
+        setDashboard(false);
+        setPlugins(true);
+    };
+
+    // useEffect(() => {
         ipcRenderer.send(channels.APP_INFO);
         ipcRenderer.on(channels.APP_INFO, (event, arg) => {
             ipcRenderer.removeAllListeners(channels.APP_INFO);
@@ -66,7 +95,7 @@ export default function App() {
             setAppVersion(arg.appVersion);
         });
         writeConfig();
-    }, []);
+    // }, []);
 
     const classes = useStyles();
     const handleDrawerOpen = () => {
@@ -92,6 +121,13 @@ export default function App() {
 
     console.log(appName, appVersion);
 
+    let windowView;
+    if (isDashboard) {
+        windowView = <Dashboard />;
+    } else if (isPlugins) {
+        windowView = <Plugins />;
+    }
+
     return (
         <div className="App">
             <div className={classes.root}>
@@ -106,10 +142,47 @@ export default function App() {
                     }}
                     open={open}
                 >
-                    <List>{mainListItems}</List>
+                    <List>
+                        <div>
+                            <ListItem button onClick={switchDashboard}>
+                                <ListItemIcon>
+                                    <DashboardIcon
+                                        color={activeColor(isDashboard)}
+                                    />
+                                </ListItemIcon>
+                                <ListItemText primary="Dashboard" />
+                            </ListItem>
+                            <ListItem button onClick={switchPlugins}>
+                                <ListItemIcon>
+                                    <SettingsInputCompositeIcon
+                                        color={activeColor(isPlugins)}
+                                    />
+                                </ListItemIcon>
+                                <ListItemText primary="Plugins" />
+                            </ListItem>
+                            <ListItem button>
+                                <ListItemIcon>
+                                    <BarChartIcon color="disabled" />
+                                </ListItemIcon>
+                                <ListItemText primary="Plots" />
+                            </ListItem>
+                            <ListItem button>
+                                <ListItemIcon>
+                                    <AccountTreeIcon color="disabled" />
+                                </ListItemIcon>
+                                <ListItemText primary="Provanance" />
+                            </ListItem>
+                            <ListItem button>
+                                <ListItemIcon>
+                                    <WbCloudyIcon color="disabled" />
+                                </ListItemIcon>
+                                <ListItemText primary="Search" />
+                            </ListItem>
+                        </div>
+                    </List>
                     <div className={classes.toolbarIcon}>{drawerState}</div>
                 </Drawer>
-                <Dashboard />
+                {windowView}
             </div>
         </div>
     );
