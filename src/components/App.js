@@ -1,5 +1,5 @@
 // Electron modules are required using window.require()
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import MenuOpenIcon from "@material-ui/icons/MenuOpen";
@@ -87,7 +87,7 @@ export default function App() {
         setPlugins(true);
     };
 
-    // useEffect(() => {
+    useEffect(() => {
         ipcRenderer.send(channels.APP_INFO);
         ipcRenderer.on(channels.APP_INFO, (event, arg) => {
             ipcRenderer.removeAllListeners(channels.APP_INFO);
@@ -95,7 +95,7 @@ export default function App() {
             setAppVersion(arg.appVersion);
         });
         writeConfig();
-    // }, []);
+    }, []);
 
     const classes = useStyles();
     const handleDrawerOpen = () => {
