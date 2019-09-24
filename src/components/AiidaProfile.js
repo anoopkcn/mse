@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Profile() {
+export default function AiidaProfile() {
   const [profile, setData] = useState([]);
   useEffect(() => {
     if (db_profile) {

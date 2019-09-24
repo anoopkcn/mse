@@ -64,7 +64,7 @@ function getStatus() {
     }
 }
 
-export default function Status() {
+export default function VerdiStatus() {
     const [items, setData] = useState([]);
 
     useEffect(() => {

@@ -16,10 +16,12 @@ import SettingsInputCompositeIcon from "@material-ui/icons/SettingsInputComposit
 import BarChartIcon from "@material-ui/icons/BarChart";
 import WbCloudyIcon from "@material-ui/icons/WbCloudy";
 import AccountTreeIcon from "@material-ui/icons/AccountTree";
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
 
 import { channels } from "../shared/constants";
 import Dashboard from "./Dashboard";
 import Plugins from "./Plugins";
+import Profile from "./Profile";
 import { writeConfig } from "../lib/global";
 // import ToolBar from "./listItems";
 // import { toolbar } from "../lib/global";
@@ -69,6 +71,7 @@ export default function App() {
     const [open, setOpen] = useState(false);
     const [isDashboard, setDashboard] = useState(true);
     const [isPlugins, setPlugins] = useState(false);
+    const [isProfile, setProfile] = useState(false);
 
     const activeColor = isActive => {
         if (isActive) {
@@ -81,10 +84,17 @@ export default function App() {
     const switchDashboard = () => {
         setDashboard(true);
         setPlugins(false);
+        setProfile(false);
     };
     const switchPlugins = () => {
         setDashboard(false);
         setPlugins(true);
+        setProfile(false);
+    };
+       const switchProfile = () => {
+        setDashboard(false);
+        setPlugins(false);
+        setProfile(true);
     };
 
     useEffect(() => {
@@ -126,6 +136,8 @@ export default function App() {
         windowView = <Dashboard />;
     } else if (isPlugins) {
         windowView = <Plugins />;
+    }else if (isProfile){
+        windowView =<Profile />
     }
 
     return (
@@ -144,6 +156,14 @@ export default function App() {
                 >
                     <List>
                         <div>
+                        <ListItem button onClick={switchProfile}>
+                                <ListItemIcon>
+                                    <AccountBoxIcon
+                                        color={activeColor(isProfile)}
+                                    />
+                                </ListItemIcon>
+                                <ListItemText primary="Dashboard" />
+                            </ListItem>
                             <ListItem button onClick={switchDashboard}>
                                 <ListItemIcon>
                                     <DashboardIcon
