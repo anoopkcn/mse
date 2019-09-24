@@ -15,7 +15,15 @@ export const VERDI = readConfig("python_env")
     : null;
 export const AIIDA_CONFIG_FILE = readConfig("aiida_dir")
     ? `${readConfig("aiida_dir")}/config.json`
-    : `${HOME_DIR}/.aiida/config.json`;
+    : null; //`${HOME_DIR}/.aiida/config.json`
+
+var data ;
+if(AIIDA_CONFIG_FILE){
+    data = fs.readFileSync(AIIDA_CONFIG_FILE, "utf-8");
+}else{
+    data = null
+}
+export const db_profile = (data)? JSON.parse(data): null ;
 
 ipcRenderer.send(channels.PORT_MESSAGE, PORT);
 
@@ -49,9 +57,6 @@ export function readConfig(property) {
 //     ipcRenderer.removeAllListeners(channels.PORT_MESSAGE);
 //     console.log(arg)
 // });
-
-var data = fs.readFileSync(AIIDA_CONFIG_FILE, "utf-8");
-export const db_profile = JSON.parse(data)
 
 export function startServer() {
     // TODO:: Find if the REST API is running on port PORT if not start the API...

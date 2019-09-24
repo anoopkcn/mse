@@ -5,7 +5,7 @@ import RotateRightIcon from "@material-ui/icons/RotateRight";
 import { makeStyles } from "@material-ui/core/styles";
 import NodesTable from "./NodesTable";
 import "../assets/css/animations.css";
-import { AIIDA_RESTAPI_URL, startServer } from "../lib/global";
+import { AIIDA_RESTAPI_URL, startServer, db_profile} from "../lib/global";
 
 const url = `${AIIDA_RESTAPI_URL}/nodes?orderby=-id`;
 
@@ -37,7 +37,7 @@ function fetchNode() {
             });
     } // else load from the local database https://node-postgres.com/
 }
-
+console.log(db_profile)
 export default function Nodes() {
     const [data, setData] = useState({});
     const [isLoaded, setLoaded] = useState(false);
