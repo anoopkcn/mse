@@ -18,28 +18,36 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function getLast(data, loc=1){
-  return data[data.length-loc]
+function getLast(data, loc = 1) {
+  return data[data.length - loc];
 }
-function statusFormat(status, code){
-    if(code!=null){
-      if(code === 0 ){
-        return (
-        <span>{status}&nbsp;&nbsp;<span style={{color:'green'}}><b>{code}</b></span></span>
-        )
-      }else{
-        return(
-          <span>{status}&nbsp;&nbsp;<span style={{color:'red'}}><b>{code}</b></span></span>
-        )
-      }
-      
-    }else if(status === undefined){
-      return ''
-    }else{
-      return `${status}`
+function statusFormat(status, code) {
+  if (code != null) {
+    if (code === 0) {
+      return (
+        <span>
+          {status}&nbsp;&nbsp;
+          <span style={{ color: "green" }}>
+            <b>{code}</b>
+          </span>
+        </span>
+      );
+    } else {
+      return (
+        <span>
+          {status}&nbsp;&nbsp;
+          <span style={{ color: "red" }}>
+            <b>{code}</b>
+          </span>
+        </span>
+      );
     }
+  } else if (status === undefined) {
+    return "";
+  } else {
+    return `${status}`;
+  }
 }
-
 
 const CalcTable = props => {
   const classes = useStyles();
@@ -67,9 +75,15 @@ const CalcTable = props => {
               <TableCell align="left">
                 {item.attributes.process_label}
               </TableCell>
-              <TableCell align="left">{getLast(item.node_type.split('.'),2)}</TableCell>
-              <TableCell align="left">{statusFormat(item.attributes.process_state, item.attributes.exit_status)}</TableCell>
-
+              <TableCell align="left">
+                {getLast(item.node_type.split("."), 2)}
+              </TableCell>
+              <TableCell align="left">
+                {statusFormat(
+                  item.attributes.process_state,
+                  item.attributes.exit_status
+                )}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

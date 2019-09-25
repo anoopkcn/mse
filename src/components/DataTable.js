@@ -1,49 +1,58 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
+import React from "react";
+import PropTypes from "prop-types";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableFooter from '@material-ui/core/TableFooter';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
-import FirstPageIcon from '@material-ui/icons/FirstPage';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import LastPageIcon from '@material-ui/icons/LastPage';
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableFooter from "@material-ui/core/TableFooter";
+import TablePagination from "@material-ui/core/TablePagination";
+import TableSortLabel from "@material-ui/core/TableSortLabel";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+import IconButton from "@material-ui/core/IconButton";
+import FirstPageIcon from "@material-ui/icons/FirstPage";
+import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
+import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
+import LastPageIcon from "@material-ui/icons/LastPage";
 
 const useStyles1 = makeStyles(theme => ({
   root: {
     flexShrink: 0,
     color: theme.palette.text.secondary,
-    marginLeft: theme.spacing(2.5),
-  },
+    marginLeft: theme.spacing(2.5)
+  }
 }));
 
-function getLast(data, loc=1){
-  return data[data.length-loc]
+function getLast(data, loc = 1) {
+  return data[data.length - loc];
 }
-function statusFormat(status, code){
-    if(code!=null){
-      if(code === 0 ){
-        return (
-        <span>{status}&nbsp;&nbsp;<span style={{color:'green'}}><b>{code}</b></span></span>
-        )
-      }else{
-        return(
-          <span>{status}&nbsp;&nbsp;<span style={{color:'red'}}><b>{code}</b></span></span>
-        )
-      }
-      
-    }else if(status === undefined){
-      return ''
-    }else{
-      return `${status}`
+function statusFormat(status, code) {
+  if (code != null) {
+    if (code === 0) {
+      return (
+        <span>
+          {status}&nbsp;&nbsp;
+          <span style={{ color: "green" }}>
+            <b>{code}</b>
+          </span>
+        </span>
+      );
+    } else {
+      return (
+        <span>
+          {status}&nbsp;&nbsp;
+          <span style={{ color: "red" }}>
+            <b>{code}</b>
+          </span>
+        </span>
+      );
     }
+  } else if (status === undefined) {
+    return "";
+  } else {
+    return `${status}`;
+  }
 }
 
 function TablePaginationActions(props) {
@@ -74,24 +83,36 @@ function TablePaginationActions(props) {
         disabled={page === 0}
         aria-label="first page"
       >
-        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+        {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
       </IconButton>
-      <IconButton onClick={handleBackButtonClick} disabled={page === 0} aria-label="previous page">
-        {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+      <IconButton
+        onClick={handleBackButtonClick}
+        disabled={page === 0}
+        aria-label="previous page"
+      >
+        {theme.direction === "rtl" ? (
+          <KeyboardArrowRight />
+        ) : (
+          <KeyboardArrowLeft />
+        )}
       </IconButton>
       <IconButton
         onClick={handleNextButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="next page"
       >
-        {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+        {theme.direction === "rtl" ? (
+          <KeyboardArrowLeft />
+        ) : (
+          <KeyboardArrowRight />
+        )}
       </IconButton>
       <IconButton
         onClick={handleLastPageButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="last page"
       >
-        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+        {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
       </IconButton>
     </div>
   );
@@ -101,32 +122,31 @@ TablePaginationActions.propTypes = {
   count: PropTypes.number.isRequired,
   onChangePage: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
-  rowsPerPage: PropTypes.number.isRequired,
+  rowsPerPage: PropTypes.number.isRequired
 };
-
 
 const useStyles2 = makeStyles(theme => ({
   root: {
-    width: '100%',
-    marginTop: theme.spacing(3),
+    width: "100%",
+    marginTop: theme.spacing(3)
   },
   table: {
-    minWidth: 500,
+    minWidth: 500
   },
   tableWrapper: {
-    overflowX: 'auto',
+    overflowX: "auto"
   },
   visuallyHidden: {
     border: 0,
-    clip: 'rect(0 0 0 0)',
+    clip: "rect(0 0 0 0)",
     height: 1,
     margin: -1,
-    overflow: 'hidden',
+    overflow: "hidden",
     padding: 0,
-    position: 'absolute',
+    position: "absolute",
     top: 20,
-    width: 1,
-  },
+    width: 1
+  }
 }));
 
 function desc(a, b, orderBy) {
@@ -150,15 +170,17 @@ function stableSort(array, cmp) {
 }
 
 function getSorting(order, orderBy) {
-  return order === 'desc' ? (a, b) => desc(a, b, orderBy) : (a, b) => -desc(a, b, orderBy);
+  return order === "desc"
+    ? (a, b) => desc(a, b, orderBy)
+    : (a, b) => -desc(a, b, orderBy);
 }
 
 const headCells = [
-  { id: 'id', numeric: true,label: 'PK' },
-  { id: 'ctime', numeric: false, label: 'Created' },
-  { id: 'process_label', numeric: false, label: 'Node Label' },
-  { id: 'node_type', numeric: false, label: 'Node Type' },
-  { id: 'status', numeric: false, label: 'Status' },
+  { id: "id", numeric: true, label: "PK" },
+  { id: "ctime", numeric: false, label: "Created" },
+  { id: "process_label", numeric: false, label: "Node Label" },
+  { id: "node_type", numeric: false, label: "Node Type" },
+  { id: "status", numeric: false, label: "Status" }
 ];
 
 function EnhancedTableHead(props) {
@@ -183,7 +205,7 @@ function EnhancedTableHead(props) {
               {headCell.label}
               {orderBy === headCell.id ? (
                 <span className={classes.visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                  {order === "desc" ? "sorted descending" : "sorted ascending"}
                 </span>
               ) : null}
             </TableSortLabel>
@@ -197,20 +219,20 @@ function EnhancedTableHead(props) {
 EnhancedTableHead.propTypes = {
   classes: PropTypes.object.isRequired,
   onRequestSort: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-  orderBy: PropTypes.string.isRequired,
+  order: PropTypes.oneOf(["asc", "desc"]).isRequired,
+  orderBy: PropTypes.string.isRequired
 };
-
 
 export default function DataTable(props) {
   const classes = useStyles2();
   const rows = props.data.data.nodes;
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(8);
-  const [order, setOrder] = React.useState('desc');
-  const [orderBy, setOrderBy] = React.useState('id');
+  const [order, setOrder] = React.useState("desc");
+  const [orderBy, setOrderBy] = React.useState("id");
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  const emptyRows =
+    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   function handleChangePage(event, newPage) {
     setPage(newPage);
@@ -222,8 +244,8 @@ export default function DataTable(props) {
   }
 
   function handleRequestSort(event, property) {
-    const isDesc = orderBy === property && order === 'desc';
-    setOrder(isDesc ? 'asc' : 'desc');
+    const isDesc = orderBy === property && order === "desc";
+    setOrder(isDesc ? "asc" : "desc");
     setOrderBy(property);
   }
 
@@ -231,26 +253,36 @@ export default function DataTable(props) {
     <Paper className={classes.root}>
       <div className={classes.tableWrapper}>
         <Table className={classes.table}>
-        <EnhancedTableHead
+          <EnhancedTableHead
             classes={classes}
-              order={order}
-              orderBy={orderBy}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
-        />
+            order={order}
+            orderBy={orderBy}
+            onRequestSort={handleRequestSort}
+            rowCount={rows.length}
+          />
           <TableBody>
             {stableSort(rows, getSorting(order, orderBy))
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
-              <TableRow key={row.id}>
-                <TableCell component="th" scope="row">
-                  {row.id}
-                </TableCell>
-                <TableCell align="left">{row.ctime}</TableCell>
-                <TableCell align="left">{row.attributes.process_label}</TableCell>
-                <TableCell align="left">{getLast(row.node_type.split('.'),2)}</TableCell>
-                <TableCell align="left">{statusFormat(row.attributes.process_state, row.attributes.exit_status)}</TableCell>
-              </TableRow>
-            ))}
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map(row => (
+                <TableRow key={row.id}>
+                  <TableCell component="th" scope="row">
+                    {row.id}
+                  </TableCell>
+                  <TableCell align="left">{row.ctime}</TableCell>
+                  <TableCell align="left">
+                    {row.attributes.process_label}
+                  </TableCell>
+                  <TableCell align="left">
+                    {getLast(row.node_type.split("."), 2)}
+                  </TableCell>
+                  <TableCell align="left">
+                    {statusFormat(
+                      row.attributes.process_state,
+                      row.attributes.exit_status
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))}
 
             {emptyRows > 0 && (
               <TableRow style={{ height: 48 * emptyRows }}>
@@ -259,7 +291,7 @@ export default function DataTable(props) {
             )}
           </TableBody>
           <TableFooter align="right">
-           <TableRow>
+            <TableRow>
               <TablePagination
                 rowsPerPageOptions={[5, 8, 10, 16, 25]}
                 colSpan={rows.length}
@@ -267,14 +299,14 @@ export default function DataTable(props) {
                 rowsPerPage={rowsPerPage}
                 page={page}
                 SelectProps={{
-                  inputProps: { 'aria-label': 'nodes per page' },
-                  native: false,
+                  inputProps: { "aria-label": "nodes per page" },
+                  native: false
                 }}
                 onChangePage={handleChangePage}
                 onChangeRowsPerPage={handleChangeRowsPerPage}
                 ActionsComponent={TablePaginationActions}
               />
-             </TableRow>
+            </TableRow>
           </TableFooter>
         </Table>
       </div>

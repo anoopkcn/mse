@@ -38,7 +38,9 @@ export default function AiidaProfile() {
         {profile && profile.options && (
           <ListItemText
             primary={
-              profile.options.user_first_name + " " + profile.options.user_last_name
+              profile.options.user_first_name +
+              " " +
+              profile.options.user_last_name
             }
             secondary={
               <React.Fragment>
@@ -63,7 +65,9 @@ export default function AiidaProfile() {
             <List dense={true}>
               <ListItem>
                 <ListItemText
-                  primary={profile.profiles[profile.default_profile].AIIDADB_ENGINE}
+                  primary={
+                    profile.profiles[profile.default_profile].AIIDADB_ENGINE
+                  }
                   secondary="engine"
                 />
               </ListItem>
@@ -81,7 +85,9 @@ export default function AiidaProfile() {
             <List dense={true}>
               <ListItem>
                 <ListItemText
-                  primary={profile.profiles[profile.default_profile].AIIDADB_USER}
+                  primary={
+                    profile.profiles[profile.default_profile].AIIDADB_USER
+                  }
                   secondary="db-user"
                 />
               </ListItem>
