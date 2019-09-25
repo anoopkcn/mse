@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 // import Container from '@material-ui/core/Container';
@@ -8,11 +8,23 @@ import { ThemeProvider } from "@material-ui/styles";
 import Button from "@material-ui/core/Button";
 import BallotIcon from "@material-ui/icons/Ballot";
 import CastConnectedIcon from "@material-ui/icons/CastConnected";
+
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import Grow from "@material-ui/core/Grow";
+import Popper from "@material-ui/core/Popper";
+import MenuItem from "@material-ui/core/MenuItem";
+import MenuList from "@material-ui/core/MenuList";
+
 import NodesTable from "./NodesTable";
 import "../assets/css/animations.css";
 import { AIIDA_RESTAPI_URL, startRestAPI, db_profile, db } from "../lib/global";
 
 const url = `${AIIDA_RESTAPI_URL}/nodes?orderby=-id`;
+
+const intervalRep = ["1s", "2s", "5s", "10s", "20s"];
+const intervalTime = [1, 2, 5, 10, 20];
 
 const theme = createMuiTheme({
     palette: {
@@ -34,8 +46,16 @@ const useStyles = makeStyles(theme => ({
         paddingTop: 132.5 // (minheight/2) - (iconSize/2)
     },
     toolbar: {
-        width: "100%"
-    }
+        width: "100%",
+        // padding: theme.spacing(1, 2),
+    },
+    button:{
+      margin: theme.spacing(0, 1),
+    },
+
+    intervalButton:{
+      margin: theme.spacing(0, 1, 0, 0),
+    },
 }));
 
 function fetchNode() {
@@ -60,18 +80,52 @@ export default function Nodes() {
     const [isLoaded, setLoaded] = useState(false);
     const [isDatabase, setDatabase] = useState(true);
     const [isRestAPI, setRestAPI] = useState(false);
+
+    //for split button
+    const [open, setOpen] = useState(false);
+    const anchorRef = useRef(null);
+    const [selectedIndex, setSelectedIndex] = useState(2);
+    const [isIntervel, setTimeInterval] = useState(false);
+
     const classes = useStyles();
     const queryText = "select * from db_dbnode";
 
+    var fetchInterval = 1000*(intervalTime[selectedIndex])
+
     const activeColor = isActive => {
-        return (isActive) ?  "secondary": "disabled";
+        return isActive ? "secondary" : "disabled";
+    };
+    const activeColorButton = isActive => {
+      if(isActive) return "secondary"
     };
 
     const switchDatabase = () => {
-        if(isRestAPI !== true) setDatabase(!isDatabase);
+        if (isRestAPI !== true) setDatabase(!isDatabase);
     };
     const switchRestAPI = () => {
-        if(isDatabase !== true){setRestAPI(!isRestAPI)}
+        if (isDatabase !== true) {
+            setRestAPI(!isRestAPI);
+        }
+    };
+
+    const handleMenuItemClick = (event, index) => {
+        setSelectedIndex(index);
+        setOpen(false);
+        setTimeInterval(true);
+        console.log(`You clicked ${intervalRep[index]}`);
+    };
+    const switchInterval = () => {
+        setTimeInterval(false);
+        console.log("deactivated");
+    };
+    const handleToggle = () => {
+        setOpen(prevOpen => !prevOpen);
+    };
+
+    const handleClose = event => {
+        if (anchorRef.current && anchorRef.current.contains(event.target)) {
+            return;
+        }
     };
 
     if (!isDatabase) {
@@ -101,33 +155,41 @@ export default function Nodes() {
 
         if (isDatabase || isRestAPI) {
             fetchData();
-            setInterval(() => {
-                fetchData();
-            }, 7000);
+            if(isIntervel){
+              setInterval(() => {
+                  fetchData();
+              }, fetchInterval);
+            }
         }
         return () => {
             didCancel = true;
         };
-    }, [isDatabase, isRestAPI]);
+    }, [isDatabase, isRestAPI, fetchInterval, isIntervel]);
 
     console.log(isLoaded);
     let nodesTable;
     if (isLoaded && data) {
-        if(isDatabase === false && isRestAPI === false){
-            nodesTable = <div>You have to set the path to aiida config and start the postgress server </div>
-        }else if (isDatabase && !isRestAPI && !data.data) {
-            nodesTable = <NodesTable data={data} />
-        } else if (isRestAPI && !isDatabase && data.data) {
-            nodesTable = <NodesTable data={data.data.nodes} />
-        }else{
+        if (isDatabase === false && isRestAPI === false) {
             nodesTable = (
-            <div className={classes.loading}>
-                <RotateRightIcon
-                    className="Loading"
-                    color="disabled"
-                    fontSize="large"
-                />
-            </div>)
+                <div>
+                    You have to set the path to aiida config and start the
+                    postgress server{" "}
+                </div>
+            );
+        } else if (isDatabase && !isRestAPI && !data.data) {
+            nodesTable = <NodesTable data={data} />;
+        } else if (isRestAPI && !isDatabase && data.data) {
+            nodesTable = <NodesTable data={data.data.nodes} />;
+        } else {
+            nodesTable = (
+                <div className={classes.loading}>
+                    <RotateRightIcon
+                        className="Loading"
+                        color="disabled"
+                        fontSize="large"
+                    />
+                </div>
+            );
         }
     } else {
         nodesTable = (
@@ -142,21 +204,51 @@ export default function Nodes() {
     }
     return (
         <React.Fragment>
-            <Grid container spacing={1}>
+            <Grid container spacing={2}>
                 <Grid item xs={12}>
                     <Paper className={classes.toolbar}>
                         <div className={classes.toolbarIcons}>
                             <ThemeProvider theme={theme}>
-                                <Button onClick={switchDatabase}>
-                                    <BallotIcon
-                                        color={activeColor(isDatabase)}
-                                    />
-                                </Button>
-                                <Button onClick={switchRestAPI}>
-                                    <CastConnectedIcon
-                                        color={activeColor(isRestAPI)}
-                                    />
-                                </Button>
+                            <Grid container spacing={1}>
+                            <Grid item xs={10}>
+                                  <Button disableRipple={true} variant="outlined" className={classes.button} onClick={switchDatabase}>
+                                      <BallotIcon color={activeColor(isDatabase)} />
+                                  </Button>
+                                  <Button disableRipple={true} variant="outlined" onClick={switchRestAPI}>
+                                      <CastConnectedIcon color={activeColor(isRestAPI)} />
+                                  </Button>
+                              </Grid>
+                              <Grid item xs={2} align="right">
+                                <ButtonGroup size="small" className={classes.intervalButton} color={activeColorButton(isIntervel)} ref={anchorRef} aria-label="split button">
+                                    <Button disableRipple={true}  size="small" onClick={switchInterval}>
+                                        {intervalRep[selectedIndex]}
+                                    </Button>
+                                    <Button disableRipple={true} size="small" color={activeColorButton(isIntervel)} aria-owns={open ? "menu-list-grow" : undefined } aria-haspopup="true" onClick={handleToggle}>
+                                        <ArrowDropDownIcon />
+                                    </Button>
+                                </ButtonGroup>
+                                </Grid>
+                                </Grid>
+                                <Popper style={{ zIndex:2000 }} size="small" open={open} anchorEl={anchorRef.current} transition disablePortal >
+                                    {({ TransitionProps, placement }) => (
+                                        <Grow {...TransitionProps} style={{transformOrigin: placement === "bottom"? "center top": "center bottom"}} >
+                                            <Paper id="menu-list-grow">
+                                                <ClickAwayListener onClickAway={handleClose} >
+                                                    <MenuList>
+                                                        {intervalRep.map(
+                                                            (option, index) => (
+                                                                <MenuItem key={option} selected={index === selectedIndex }
+                                                                    onClick={event => handleMenuItemClick(event, index ) } >
+                                                                    {option}
+                                                                </MenuItem>
+                                                            )
+                                                        )}
+                                                    </MenuList>
+                                                </ClickAwayListener>
+                                            </Paper>
+                                        </Grow>
+                                    )}
+                                </Popper>
                             </ThemeProvider>
                         </div>
                     </Paper>

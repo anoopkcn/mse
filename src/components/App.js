@@ -156,7 +156,7 @@ export default function App() {
                 >
                     <List>
                         <div>
-                        <ListItem button onClick={switchProfile}>
+                        <ListItem button disableRipple={true} onClick={switchProfile}>
                                 <ListItemIcon>
                                     <AccountBoxIcon
                                         color={activeColor(isProfile)}
@@ -164,7 +164,7 @@ export default function App() {
                                 </ListItemIcon>
                                 <ListItemText primary="Profile" />
                             </ListItem>
-                            <ListItem button onClick={switchDashboard}>
+                            <ListItem button disableRipple={true} onClick={switchDashboard}>
                                 <ListItemIcon>
                                     <DashboardIcon
                                         color={activeColor(isDashboard)}
@@ -172,7 +172,7 @@ export default function App() {
                                 </ListItemIcon>
                                 <ListItemText primary="Dashboard" />
                             </ListItem>
-                            <ListItem button onClick={switchPlugins}>
+                            <ListItem button disableRipple={true} onClick={switchPlugins}>
                                 <ListItemIcon>
                                     <SettingsInputCompositeIcon
                                         color={activeColor(isPlugins)}
@@ -180,19 +180,19 @@ export default function App() {
                                 </ListItemIcon>
                                 <ListItemText primary="Plugins" />
                             </ListItem>
-                            <ListItem button>
+                            <ListItem button disableRipple={true}>
                                 <ListItemIcon>
                                     <BarChartIcon color="disabled" />
                                 </ListItemIcon>
                                 <ListItemText primary="Plots" />
                             </ListItem>
-                            <ListItem button>
+                            <ListItem button disableRipple={true}>
                                 <ListItemIcon>
                                     <AccountTreeIcon color="disabled" />
                                 </ListItemIcon>
                                 <ListItemText primary="Provanance" />
                             </ListItem>
-                            <ListItem button>
+                            <ListItem button disableRipple={true}>
                                 <ListItemIcon>
                                     <WbCloudyIcon color="disabled" />
                                 </ListItemIcon>
