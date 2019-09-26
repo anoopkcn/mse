@@ -1,6 +1,6 @@
 {
-  "name": "elemental",
-  "version": "0.1.0",
+  "name": "mse",
+  "version": "0.1.1",
   "private": true,
   "main": "public/electron.js",
   "repository": {
@@ -8,7 +8,7 @@
     "url": "https://github.com/anoopkcn/elemental.git"
   },
   "author": "Anoop Chandran <anoopkcn@gmail.com>",
-  "description": "Materials simulation lab",
+  "description": "Materials Simulation Environment",
   "homepage": "./",
   "build": {
     "appId": "com.elemental",
@@ -36,6 +36,7 @@
     "date-fns": "^2.1.0",
     "electron-is-dev": "^1.1.0",
     "material-table": "^1.50.0",
+    "mousetrap": "^1.6.3",
     "pg": "^7.12.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
