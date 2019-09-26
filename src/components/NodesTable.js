@@ -101,17 +101,20 @@ function DetailsPanel(props) {
                   }
                 />
               </ListItem>
-              {rows.map(row => (
-                <ListItem key={"key" + row.property}>
-                  <ListItemText
-                    primary={
-                      <span>
-                        <Attr>{row.property}</Attr> {row.content}
-                      </span>
-                    }
-                  />
-                </ListItem>
-              ))}
+              {rows.map(
+                row =>
+                  row.content !== "" && (
+                    <ListItem key={"key" + row.property}>
+                      <ListItemText
+                        primary={
+                          <span>
+                            <Attr>{row.property}</Attr> {row.content}
+                          </span>
+                        }
+                      />
+                    </ListItem>
+                  )
+              )}
 
               {rowData.node_type.split(".")[0] === "process" && (
                 <ListItem>
@@ -133,9 +136,7 @@ function DetailsPanel(props) {
             component="div"
             overflow="scroll"
             className={classes.box}
-          >
-            attributes
-          </Box>
+          ></Box>
         </Grid>
       </Grid>
     </div>
