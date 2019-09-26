@@ -27,6 +27,7 @@ import { writeConfig } from "../lib/global";
 // import { toolbar } from "../lib/global";
 
 const { ipcRenderer } = window;
+const Mousetrap = window.require("mousetrap");
 
 const drawerWidth = 220;
 
@@ -73,6 +74,12 @@ export default function App() {
   const [isPlugins, setPlugins] = useState(false);
   const [isProfile, setProfile] = useState(false);
 
+  // map multiple combinations to the same callback
+  Mousetrap.bind(["ctrl+k ctrl+b", "command+k command+b"], function() {
+    toggleDrawer();
+    return false;
+  });
+
   const activeColor = isActive => {
     if (isActive) {
       return "primary";
@@ -113,6 +120,9 @@ export default function App() {
   };
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+  const toggleDrawer = () => {
+    setOpen(!open);
   };
   let drawerState;
   if (open) {

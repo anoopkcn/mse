@@ -329,6 +329,7 @@ export default function NodesTable(props) {
       data={allNodes}
       detailPanel={[
         {
+          disabled: true,
           icon: () =>
             !isDetailsPanel ? (
               <ChevronRightIcon color="secondary" fontSize="small" />

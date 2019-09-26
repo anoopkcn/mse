@@ -230,6 +230,7 @@ export default function Nodes() {
                   </Grid>
                   <Grid item xs={2} align="right">
                     <ButtonGroup
+                      disableRipple={true}
                       size="small"
                       className={classes.intervalButton}
                       color={activeColorButton(isIntervel)}
