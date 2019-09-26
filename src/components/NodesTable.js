@@ -56,9 +56,21 @@ function statusFormat(status, code) {
   }
 }
 
+function createData(property, content) {
+  return { property, content };
+}
+
 function DetailsPanel(props) {
   const rowData = props.data;
   const classes = useStyles();
+  const rows = [
+    createData("uuid", rowData.uuid),
+    createData("Node Type", rowData.node_type),
+    createData("Created", rowData.ctime.toGMTString()),
+    createData("Modified", rowData.mtime.toGMTString()),
+    createData("Label", rowData.label),
+    createData("Description", rowData.description)
+  ];
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
@@ -81,70 +93,27 @@ function DetailsPanel(props) {
                   }
                 />
               </ListItem>
-              <ListItem>
-                <ListItemText
-                  primary={
-                    <span>
-                      <Attr>uuid</Attr> {rowData.uuid}
-                    </span>
-                  }
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemText
-                  primary={
-                    <span>
-                      <Attr>node_type</Attr> {rowData.node_type}
-                    </span>
-                  }
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemText
-                  primary={
-                    <span>
-                      <Attr>Created</Attr> {rowData.ctime.toGMTString()}
-                    </span>
-                  }
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemText
-                  primary={
-                    <span>
-                      <Attr>Modified</Attr> {rowData.mtime.toGMTString()}
-                    </span>
-                  }
-                />
-              </ListItem>
+              {rows.map(
+                row =>
+                  row.content !== "" && (
+                    <ListItem key={"key" + row.property}>
+                      <ListItemText
+                        primary={
+                          <span>
+                            <Attr>{row.property}</Attr> {row.content}
+                          </span>
+                        }
+                      />
+                    </ListItem>
+                  )
+              )}
+
               {rowData.node_type.split(".")[0] === "process" && (
                 <ListItem>
                   <ListItemText
                     primary={
                       <span>
                         <Attr>Process Type</Attr> {rowData.process_type}
-                      </span>
-                    }
-                  />
-                </ListItem>
-              )}
-              {rowData.label !== "" && (
-                <ListItem>
-                  <ListItemText
-                    primary={
-                      <span>
-                        <Attr>Label</Attr> {rowData.label}
-                      </span>
-                    }
-                  />
-                </ListItem>
-              )}
-              {rowData.description !== "" && (
-                <ListItem>
-                  <ListItemText
-                    primary={
-                      <span>
-                        <Attr>Description</Attr> {rowData.description}
                       </span>
                     }
                   />
