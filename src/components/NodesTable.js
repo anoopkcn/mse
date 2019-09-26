@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const NodesTable = props => {
+export default function NodesTable(props) {
   var allNodes = props.data;
   var isDetailsPanel = props.detailsPanel;
 
@@ -120,5 +120,4 @@ const NodesTable = props => {
       onRowClick={(event, rowData, togglePanel) => togglePanel()}
     />
   );
-};
-export default NodesTable;
+}
