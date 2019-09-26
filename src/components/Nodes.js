@@ -1,14 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-// import Container from '@material-ui/core/Container';
 import RotateRightIcon from "@material-ui/icons/RotateRight";
 import { makeStyles, createMuiTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
 import Button from "@material-ui/core/Button";
 import BallotIcon from "@material-ui/icons/Ballot";
 import CastConnectedIcon from "@material-ui/icons/CastConnected";
-
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
@@ -115,8 +113,7 @@ export default function Nodes() {
     console.log(`You clicked ${intervalRep[index]}`);
   };
   const switchInterval = () => {
-    setTimeInterval(false);
-    console.log("deactivated");
+    setTimeInterval(!isIntervel);
   };
   const handleToggle = () => {
     setOpen(prevOpen => !prevOpen);
@@ -177,9 +174,11 @@ export default function Nodes() {
         </div>
       );
     } else if (isDatabase && !isRestAPI && !data.data) {
-      nodesTable = <NodesTable data={data} />;
+      nodesTable = <NodesTable data={data} detailsPanel={isIntervel} />;
     } else if (isRestAPI && !isDatabase && data.data) {
-      nodesTable = <NodesTable data={data.data.nodes} />;
+      nodesTable = (
+        <NodesTable data={data.data.nodes} detailsPanel={isIntervel} />
+      );
     } else {
       nodesTable = (
         <div className={classes.loading}>

@@ -3,6 +3,7 @@ import { forwardRef } from "react";
 import MaterialTable from "material-table";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import { makeStyles } from "@material-ui/core/styles";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -12,6 +13,7 @@ const useStyles = makeStyles(theme => ({
 
 const NodesTable = props => {
   var allNodes = props.data;
+  var isDetailsPanel = props.detailsPanel;
 
   const classes = useStyles();
 
@@ -98,6 +100,24 @@ const NodesTable = props => {
         }
       ]}
       data={allNodes}
+      detailPanel={[
+        {
+          icon: () =>
+            !isDetailsPanel ? (
+              <ChevronRightIcon color="secondary" fontSize="small" />
+            ) : (
+              ""
+            ),
+          render: rowData => {
+            if (!isDetailsPanel) {
+              return <div>{rowData.attributes.process_state}</div>;
+            } else {
+              return false;
+            }
+          }
+        }
+      ]}
+      onRowClick={(event, rowData, togglePanel) => togglePanel()}
     />
   );
 };
