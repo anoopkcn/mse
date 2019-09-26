@@ -5,7 +5,8 @@ const useStyles = makeStyles(theme => ({
     color: "#7D7E7F",
     background: "#D9DBDE",
     padding: "4px 7px",
-    borderRadius: 3
+    borderRadius: 3,
+    cursor: "copy"
     // "&::after": {
     //   content: '"xx"'
     // }

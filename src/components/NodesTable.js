@@ -17,7 +17,11 @@ import MuiExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { flattenObject } from "../lib/utils";
+const { clipboard } = window.require("electron");
 
+function copyToClip(text) {
+  clipboard.writeText(text.toString());
+}
 const ExpansionPanel = withStyles({
   root: {
     boxShadow: "none",
@@ -159,14 +163,20 @@ function DetailsPanel(props) {
                 <ListItemText
                   primary={
                     <span>
-                      <Attr>PK</Attr> {rowData.id}
+                      <span onClick={() => copyToClip(rowData.id)}>
+                        <Attr>PK</Attr>
+                      </span>{" "}
+                      {rowData.id}
                     </span>
                   }
                 />
                 <ListItemText
                   primary={
                     <span>
-                      <Attr>User ID</Attr> {rowData.user_id}
+                      <span onClick={() => copyToClip(rowData.user_id)}>
+                        <Attr>User ID</Attr>
+                      </span>{" "}
+                      {rowData.user_id}
                     </span>
                   }
                 />
@@ -178,7 +188,10 @@ function DetailsPanel(props) {
                       <ListItemText
                         primary={
                           <span>
-                            <Attr>{row.property}</Attr> {row.content}
+                            <span onClick={() => copyToClip(row.content)}>
+                              <Attr>{row.property}</Attr>
+                            </span>{" "}
+                            {row.content}
                           </span>
                         }
                       />
@@ -191,7 +204,10 @@ function DetailsPanel(props) {
                   <ListItemText
                     primary={
                       <span>
-                        <Attr>Process Type</Attr> {rowData.process_type}
+                        <span onClick={() => copyToClip(rowData.process_type)}>
+                          <Attr>Process Type</Attr>
+                        </span>{" "}
+                        {rowData.process_type}
                       </span>
                     }
                   />
@@ -235,7 +251,10 @@ function DetailsPanel(props) {
                         <ListItemText
                           primary={
                             <span>
-                              <Attr>{row.property}</Attr> {row.content}
+                              <span onClick={() => copyToClip(row.content)}>
+                                <Attr>{row.property}</Attr>
+                              </span>{" "}
+                              {row.content}
                             </span>
                           }
                         />
