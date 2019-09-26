@@ -16,6 +16,9 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     padding: theme.spacing(2)
   },
+  details: {
+    padding: theme.spacing(2)
+  },
   box: {
     border: "1px solid #cccccc",
     padding: theme.spacing(2)
@@ -72,10 +75,15 @@ function DetailsPanel(props) {
     createData("Description", rowData.description)
   ];
   return (
-    <div className={classes.root}>
+    <div className={classes.details}>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
-          <Box className={classes.box}>
+          <Box
+            style={{ height: 300 }}
+            component="div"
+            overflow="scroll"
+            className={classes.box}
+          >
             <List dense={true}>
               <ListItem>
                 <ListItemText
@@ -93,20 +101,17 @@ function DetailsPanel(props) {
                   }
                 />
               </ListItem>
-              {rows.map(
-                row =>
-                  row.content !== "" && (
-                    <ListItem key={"key" + row.property}>
-                      <ListItemText
-                        primary={
-                          <span>
-                            <Attr>{row.property}</Attr> {row.content}
-                          </span>
-                        }
-                      />
-                    </ListItem>
-                  )
-              )}
+              {rows.map(row => (
+                <ListItem key={"key" + row.property}>
+                  <ListItemText
+                    primary={
+                      <span>
+                        <Attr>{row.property}</Attr> {row.content}
+                      </span>
+                    }
+                  />
+                </ListItem>
+              ))}
 
               {rowData.node_type.split(".")[0] === "process" && (
                 <ListItem>
@@ -123,7 +128,14 @@ function DetailsPanel(props) {
           </Box>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Box className={classes.box}>calculation details</Box>
+          <Box
+            style={{ height: 300 }}
+            component="div"
+            overflow="scroll"
+            className={classes.box}
+          >
+            attributes
+          </Box>
         </Grid>
       </Grid>
     </div>
