@@ -110,7 +110,6 @@ export default function Nodes() {
     setSelectedIndex(index);
     setOpen(false);
     setTimeInterval(true);
-    console.log(`You clicked ${intervalRep[index]}`);
   };
   const switchInterval = () => {
     setTimeInterval(!isIntervel);
@@ -175,6 +174,7 @@ export default function Nodes() {
       );
     } else if (isDatabase && !isRestAPI && !data.data) {
       nodesTable = <NodesTable data={data} detailsPanel={isIntervel} />;
+      // console.log(data);
     } else if (isRestAPI && !isDatabase && data.data) {
       nodesTable = (
         <NodesTable data={data.data.nodes} detailsPanel={isIntervel} />
@@ -182,6 +182,7 @@ export default function Nodes() {
     } else {
       nodesTable = (
         <div className={classes.loading}>
+          <p>Switch on the live loading</p>
           <RotateRightIcon
             className="Loading"
             color="disabled"
@@ -193,6 +194,7 @@ export default function Nodes() {
   } else {
     nodesTable = (
       <div className={classes.loading}>
+        <p>Switch on the live loading</p>
         <RotateRightIcon
           className="Loading"
           color="disabled"

@@ -2,6 +2,28 @@ const cp = window.require("child_process");
 
 const UNIT_MB = 1024 * 1024;
 
+export function flattenArray(obj) {
+  var farray = [];
+  for (var k in obj) {
+    if (obj[k] instanceof Object) {
+      flattenArray(obj[k]);
+    } else {
+      farray.push(obj[k]);
+    }
+  }
+  return farray;
+}
+
+export function flattenObject(obj, prefix = "") {
+  return Object.keys(obj).reduce((acc, k) => {
+    const pre = prefix.length ? prefix + "." : "";
+    if (typeof obj[k] === "object")
+      Object.assign(acc, flattenObject(obj[k], pre + k));
+    else acc[pre + k] = obj[k];
+    return acc;
+  }, {});
+}
+
 export const utils = {
   /**
    * exec command with maxBuffer size

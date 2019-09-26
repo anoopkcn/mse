@@ -10,6 +10,52 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { Attr } from "./Elements";
+import { withStyles } from "@material-ui/core/styles";
+import MuiExpansionPanel from "@material-ui/core/ExpansionPanel";
+import MuiExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
+import MuiExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import Typography from "@material-ui/core/Typography";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { flattenObject } from "../lib/utils";
+
+const ExpansionPanel = withStyles({
+  root: {
+    boxShadow: "none",
+    "&:not(:last-child)": {
+      borderBottom: 0
+    },
+    "&:before": {
+      display: "none"
+    },
+    "&$expanded": {
+      margin: "auto"
+    }
+  },
+  expanded: {}
+})(MuiExpansionPanel);
+
+const ExpansionPanelSummary = withStyles({
+  root: {
+    backgroundColor: "rgba(0, 0, 0, .03)",
+    borderBottom: "1px solid rgba(0, 0, 0, .125)",
+    minHeight: 20,
+    "&$expanded": {
+      minHeight: 20
+    }
+  },
+  content: {
+    "&$expanded": {
+      margin: "0"
+    }
+  },
+  expanded: {}
+})(MuiExpansionPanelSummary);
+
+const ExpansionPanelDetails = withStyles(theme => ({
+  root: {
+    padding: theme.spacing(1)
+  }
+}))(MuiExpansionPanelDetails);
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -20,8 +66,16 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2)
   },
   box: {
-    border: "1px solid #cccccc",
+    border: "1px solid rgba(0, 0, 0, .125)",
     padding: theme.spacing(2)
+  },
+  box2: {
+    border: "1px solid rgba(0, 0, 0, .125)",
+    padding: theme.spacing(0)
+  },
+  grid2: {
+    border: 0,
+    padding: theme.spacing(0)
   }
 }));
 
@@ -59,6 +113,8 @@ function statusFormat(status, code) {
   }
 }
 
+// Define recursive function to print nested values
+
 function createData(property, content) {
   return { property, content };
 }
@@ -66,11 +122,22 @@ function createData(property, content) {
 function DetailsPanel(props) {
   const rowData = props.data;
   const classes = useStyles();
+  function getMetadata(data) {
+    var mRows = [];
+    var obj = flattenObject(data);
+    for (var key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        mRows.push(createData(key, obj[key]));
+      }
+    }
+    return mRows;
+  }
+
   const rows = [
     createData("uuid", rowData.uuid),
     createData("Node Type", rowData.node_type),
-    createData("Created", rowData.ctime.toGMTString()),
-    createData("Modified", rowData.mtime.toGMTString()),
+    createData("Created", rowData.ctime.toString()),
+    createData("Modified", rowData.mtime.toString()),
     createData("Label", rowData.label),
     createData("Description", rowData.description)
   ];
@@ -82,8 +149,11 @@ function DetailsPanel(props) {
             style={{ height: 300 }}
             component="div"
             overflow="scroll"
-            className={classes.box}
+            className={classes.box2}
           >
+            <ExpansionPanelSummary id="panel1a-header">
+              <Typography className={classes.heading}>Summary</Typography>
+            </ExpansionPanelSummary>
             <List dense={true}>
               <ListItem>
                 <ListItemText
@@ -130,13 +200,52 @@ function DetailsPanel(props) {
             </List>
           </Box>
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid className={classes.grid2} item xs={12} sm={6}>
           <Box
             style={{ height: 300 }}
             component="div"
             overflow="scroll"
-            className={classes.box}
-          ></Box>
+            className={classes.box2}
+          >
+            <div>
+              <ExpansionPanel square>
+                <ExpansionPanelSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                >
+                  <Typography className={classes.heading}>Files</Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                  <Typography>Input Files and Output files</Typography>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
+              <ExpansionPanel square defaultExpanded={true}>
+                <ExpansionPanelSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel2a-content"
+                  id="panel2a-header"
+                >
+                  <Typography className={classes.heading}>Metadata</Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                  <List dense={true}>
+                    {getMetadata(rowData.attributes).map(row => (
+                      <ListItem key={"key" + row.property}>
+                        <ListItemText
+                          primary={
+                            <span>
+                              <Attr>{row.property}</Attr> {row.content}
+                            </span>
+                          }
+                        />
+                      </ListItem>
+                    ))}
+                  </List>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
+            </div>
+          </Box>
         </Grid>
       </Grid>
     </div>
