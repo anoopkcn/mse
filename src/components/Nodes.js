@@ -2,8 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import RotateRightIcon from "@material-ui/icons/RotateRight";
-import { makeStyles, createMuiTheme } from "@material-ui/core/styles";
-import { ThemeProvider } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import BallotIcon from "@material-ui/icons/Ballot";
 import CastConnectedIcon from "@material-ui/icons/CastConnected";
@@ -23,12 +22,6 @@ const url = `${AIIDA_RESTAPI_URL}/nodes?orderby=-id`;
 
 const intervalRep = ["1s", "2s", "5s", "10s", "20s"];
 const intervalTime = [1, 2, 5, 10, 20];
-
-const theme = createMuiTheme({
-  palette: {
-    secondary: { main: "#00a152" }
-  }
-});
 
 const useStyles = makeStyles(theme => ({
   palette: {
@@ -209,93 +202,89 @@ export default function Nodes() {
         <Grid item xs={12}>
           <Paper className={classes.toolbar}>
             <div className={classes.toolbarIcons}>
-              <ThemeProvider theme={theme}>
-                <Grid container spacing={1}>
-                  <Grid item xs={10}>
+              <Grid container spacing={1}>
+                <Grid item xs={10}>
+                  <Button
+                    disableRipple={true}
+                    variant="outlined"
+                    className={classes.button}
+                    onClick={switchDatabase}
+                  >
+                    <BallotIcon color={activeColor(isDatabase)} />
+                  </Button>
+                  <Button
+                    disableRipple={true}
+                    variant="outlined"
+                    onClick={switchRestAPI}
+                  >
+                    <CastConnectedIcon color={activeColor(isRestAPI)} />
+                  </Button>
+                </Grid>
+                <Grid item xs={2} align="right">
+                  <ButtonGroup
+                    disableRipple={true}
+                    size="small"
+                    className={classes.intervalButton}
+                    color={activeColorButton(isIntervel)}
+                    ref={anchorRef}
+                    aria-label="split button"
+                  >
                     <Button
-                      disableRipple={true}
-                      variant="outlined"
-                      className={classes.button}
-                      onClick={switchDatabase}
-                    >
-                      <BallotIcon color={activeColor(isDatabase)} />
-                    </Button>
-                    <Button
-                      disableRipple={true}
-                      variant="outlined"
-                      onClick={switchRestAPI}
-                    >
-                      <CastConnectedIcon color={activeColor(isRestAPI)} />
-                    </Button>
-                  </Grid>
-                  <Grid item xs={2} align="right">
-                    <ButtonGroup
                       disableRipple={true}
                       size="small"
-                      className={classes.intervalButton}
+                      onClick={switchInterval}
+                    >
+                      {intervalRep[selectedIndex]}
+                    </Button>
+                    <Button
+                      disableRipple={true}
+                      size="small"
                       color={activeColorButton(isIntervel)}
-                      ref={anchorRef}
-                      aria-label="split button"
+                      aria-owns={open ? "menu-list-grow" : undefined}
+                      aria-haspopup="true"
+                      onClick={handleToggle}
                     >
-                      <Button
-                        disableRipple={true}
-                        size="small"
-                        onClick={switchInterval}
-                      >
-                        {intervalRep[selectedIndex]}
-                      </Button>
-                      <Button
-                        disableRipple={true}
-                        size="small"
-                        color={activeColorButton(isIntervel)}
-                        aria-owns={open ? "menu-list-grow" : undefined}
-                        aria-haspopup="true"
-                        onClick={handleToggle}
-                      >
-                        <ArrowDropDownIcon />
-                      </Button>
-                    </ButtonGroup>
-                  </Grid>
+                      <ArrowDropDownIcon />
+                    </Button>
+                  </ButtonGroup>
                 </Grid>
-                <Popper
-                  style={{ zIndex: 2000 }}
-                  size="small"
-                  open={open}
-                  anchorEl={anchorRef.current}
-                  transition
-                  disablePortal
-                >
-                  {({ TransitionProps, placement }) => (
-                    <Grow
-                      {...TransitionProps}
-                      style={{
-                        transformOrigin:
-                          placement === "bottom"
-                            ? "center top"
-                            : "center bottom"
-                      }}
-                    >
-                      <Paper id="menu-list-grow">
-                        <ClickAwayListener onClickAway={handleClose}>
-                          <MenuList>
-                            {intervalRep.map((option, index) => (
-                              <MenuItem
-                                key={option}
-                                selected={index === selectedIndex}
-                                onClick={event =>
-                                  handleMenuItemClick(event, index)
-                                }
-                              >
-                                {option}
-                              </MenuItem>
-                            ))}
-                          </MenuList>
-                        </ClickAwayListener>
-                      </Paper>
-                    </Grow>
-                  )}
-                </Popper>
-              </ThemeProvider>
+              </Grid>
+              <Popper
+                style={{ zIndex: 2000 }}
+                size="small"
+                open={open}
+                anchorEl={anchorRef.current}
+                transition
+                disablePortal
+              >
+                {({ TransitionProps, placement }) => (
+                  <Grow
+                    {...TransitionProps}
+                    style={{
+                      transformOrigin:
+                        placement === "bottom" ? "center top" : "center bottom"
+                    }}
+                  >
+                    <Paper id="menu-list-grow">
+                      <ClickAwayListener onClickAway={handleClose}>
+                        <MenuList>
+                          {intervalRep.map((option, index) => (
+                            <MenuItem
+                              key={option}
+                              selected={index === selectedIndex}
+                              onClick={event =>
+                                handleMenuItemClick(event, index)
+                              }
+                            >
+                              {option}
+                            </MenuItem>
+                          ))}
+                        </MenuList>
+                      </ClickAwayListener>
+                    </Paper>
+                  </Grow>
+                )}
+              </Popper>
             </div>
           </Paper>
         </Grid>
