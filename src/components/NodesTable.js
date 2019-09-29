@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { forwardRef } from "react";
 import MaterialTable from "material-table";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
@@ -18,7 +18,13 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import DeviceHubIcon from "@material-ui/icons/DeviceHub";
+import Popper from "@material-ui/core/Popper";
+import Fade from "@material-ui/core/Fade";
+import Paper from "@material-ui/core/Paper";
+import Divider from "@material-ui/core/Divider";
 import { flattenObject } from "../lib/utils";
+import { db } from "../lib/global";
+
 const { clipboard } = window.require("electron");
 
 function copyToClip(text) {
@@ -73,15 +79,15 @@ const useStyles = makeStyles(theme => ({
   },
   box: {
     border: "1px solid rgba(0, 0, 0, .125)",
-    padding: theme.spacing(2)
-  },
-  box2: {
-    border: "1px solid rgba(0, 0, 0, .125)",
     padding: theme.spacing(0)
   },
   grid2: {
     border: 0,
     padding: theme.spacing(0)
+  },
+  popover: {
+    border: "1px solid #3F51B5",
+    padding: theme.spacing(1)
   }
 }));
 
@@ -155,7 +161,7 @@ function DetailsPanel(props) {
             style={{ height: 300 }}
             component="div"
             overflow="scroll"
-            className={classes.box2}
+            className={classes.box}
           >
             <ExpansionPanelSummary id="panel1a-header">
               <Typography className={classes.heading}>Summary</Typography>
@@ -223,7 +229,7 @@ function DetailsPanel(props) {
             style={{ height: 300 }}
             component="div"
             overflow="scroll"
-            className={classes.box2}
+            className={classes.box}
           >
             <div>
               <ExpansionPanel square>
@@ -272,12 +278,47 @@ function DetailsPanel(props) {
     </div>
   ); //<div>{rowData.node_type}</div>;
 }
+function LogData(props) {
+  var data = props.data;
+  return data.map(row => (
+    <span key={row.id}>
+      {row.message}
+      <Divider />
+    </span>
+  ));
+}
 
 export default function NodesTable(props) {
   var allNodes = props.data;
   var isDetailsPanel = props.detailsPanel;
-
   const classes = useStyles();
+
+  const [data, setData] = useState([]);
+  const [isLoaded, setLoaded] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event, pk) => {
+    setAnchorEl(anchorEl ? null : event.currentTarget);
+    getLog(pk);
+    setData([]);
+    setLoaded(false);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popper" : undefined;
+
+  function getLog(pk) {
+    const queryText = `SELECT * FROM public.db_dblog where dbnode_id = ${pk} order by id desc`;
+    if (!isLoaded) {
+      db.query(queryText, (err, res) => {
+        if (res.rows) {
+          setData(res.rows);
+          setLoaded(true);
+        }
+      });
+    }
+  }
+
   return (
     <MaterialTable
       className={classes.root}
@@ -319,12 +360,46 @@ export default function NodesTable(props) {
           title: "Status",
           field: "attributes.process_state",
           render: rowData => (
-            <span>
-              {statusFormat(
-                rowData.attributes.process_state,
-                rowData.attributes.exit_status
-              )}
-            </span>
+            <React.Fragment>
+              <Button
+                aria-describedby={id}
+                variant="outlined"
+                disableRipple={true}
+                onClick={event => handleClick(event, rowData.id)}
+              >
+                {rowData.node_type.split(".")[0] === "process" &&
+                  statusFormat(
+                    rowData.attributes.process_state,
+                    rowData.attributes.exit_status
+                  )}
+              </Button>
+              <Popper
+                id={id}
+                open={open}
+                anchorEl={anchorEl}
+                transition
+                placement="bottom-end"
+              >
+                {({ TransitionProps }) => (
+                  <Fade {...TransitionProps} timeout={350}>
+                    <Paper>
+                      <Box
+                        className={classes.popover}
+                        style={{
+                          maxHeight: 200,
+                          minHeight: 100,
+                          width: 500
+                        }}
+                        component="div"
+                        overflow="scroll"
+                      >
+                        <LogData data={data} />
+                      </Box>
+                    </Paper>
+                  </Fade>
+                )}
+              </Popper>
+            </React.Fragment>
           )
         },
         {
