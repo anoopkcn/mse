@@ -157,7 +157,6 @@ export default function Nodes() {
     };
   }, [isDatabase, isRestAPI, fetchInterval, isIntervel]);
 
-  console.log(isLoaded);
   let nodesTable;
   if (isLoaded && data) {
     if (isDatabase === false && isRestAPI === false) {
@@ -169,7 +168,6 @@ export default function Nodes() {
       );
     } else if (isDatabase && !isRestAPI && !data.data) {
       nodesTable = <NodesTable data={data} detailsPanel={isIntervel} />;
-      // console.log(data);
     } else if (isRestAPI && !isDatabase && data.data) {
       nodesTable = (
         <NodesTable data={data.data.nodes} detailsPanel={isIntervel} />
