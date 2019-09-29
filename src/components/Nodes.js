@@ -29,7 +29,8 @@ const useStyles = makeStyles(theme => ({
   },
   root: {
     minHeight: 500,
-    width: "100%"
+    width: "100%",
+    border: "1px solid rgba(0, 0, 0, .125)"
     // boxShadow: '0 0 0 0',
   },
   loading: {
@@ -37,15 +38,16 @@ const useStyles = makeStyles(theme => ({
     paddingTop: 132.5 // (minheight/2) - (iconSize/2)
   },
   toolbar: {
-    width: "100%"
+    width: "100%",
+    backgroundColor: "#FAFAFA"
     // padding: theme.spacing(1, 2),
   },
   button: {
-    margin: theme.spacing(0, 1)
+    margin: theme.spacing(0, 1, 0, 0)
   },
 
   intervalButton: {
-    margin: theme.spacing(0, 1, 0, 0)
+    margin: theme.spacing(0.3, 0, 0, 0)
   }
 }));
 

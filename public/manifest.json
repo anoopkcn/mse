@@ -1,6 +1,6 @@
 {
-  "short_name": "elemental",
-  "name": "materials simulation app",
+  "short_name": "mse",
+  "name": "materials simulation environment",
   "icons": [
     {
       "src": "favicon.ico",

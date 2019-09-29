@@ -33,7 +33,8 @@ const drawerWidth = 220;
 const theme = createMuiTheme({
   palette: {
     secondary: { main: "#00a152" }
-  }
+  },
+  shadows: Array(25).fill("none")
 });
 const useStyles = makeStyles(theme => ({
   root: {

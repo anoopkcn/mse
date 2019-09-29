@@ -14,8 +14,10 @@ import { withStyles } from "@material-ui/core/styles";
 import MuiExpansionPanel from "@material-ui/core/ExpansionPanel";
 import MuiExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import MuiExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import DeviceHubIcon from "@material-ui/icons/DeviceHub";
 import { flattenObject } from "../lib/utils";
 const { clipboard } = window.require("electron");
 
@@ -324,12 +326,20 @@ export default function NodesTable(props) {
               )}
             </span>
           )
+        },
+        {
+          title: "provanance",
+          render: rowData => (
+            <Button>
+              <DeviceHubIcon fontSize="small" />
+            </Button>
+          )
         }
       ]}
       data={allNodes}
       detailPanel={[
         {
-          disabled: true,
+          // disabled: true,
           icon: () =>
             !isDetailsPanel ? (
               <ChevronRightIcon color="secondary" fontSize="small" />
@@ -345,7 +355,7 @@ export default function NodesTable(props) {
           }
         }
       ]}
-      onRowClick={(event, rowData, togglePanel) => togglePanel()}
+      // onRowClick={(event, rowData, togglePanel) => togglePanel()}
     />
   );
 }

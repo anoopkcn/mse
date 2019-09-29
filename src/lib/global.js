@@ -9,7 +9,7 @@ const { Pool } = window.require("pg");
 const { ipcRenderer } = window;
 
 export const HOME_DIR = os.homedir();
-export const CONFIG_FILE = `${HOME_DIR}/.elemental`;
+export const CONFIG_FILE = `${HOME_DIR}/.mse`;
 export const PORT = 5791;
 export const AIIDA_RESTAPI_URL = `http://localhost:${PORT}/api/v3`;
 export const VERDI = readConfig("python_env")
