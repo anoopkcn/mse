@@ -299,7 +299,7 @@ export default function NodesTable(props) {
 
   const handleClick = (event, pk) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
-    getLog(pk);
+    if (pk) getLog(pk);
     setData([]);
     setLoaded(false);
   };
@@ -361,44 +361,47 @@ export default function NodesTable(props) {
           field: "attributes.process_state",
           render: rowData => (
             <React.Fragment>
-              <Button
-                aria-describedby={id}
-                variant="outlined"
-                disableRipple={true}
-                onClick={event => handleClick(event, rowData.id)}
-              >
-                {rowData.node_type.split(".")[0] === "process" &&
-                  statusFormat(
-                    rowData.attributes.process_state,
-                    rowData.attributes.exit_status
-                  )}
-              </Button>
-              <Popper
-                id={id}
-                open={open}
-                anchorEl={anchorEl}
-                transition
-                placement="bottom-end"
-              >
-                {({ TransitionProps }) => (
-                  <Fade {...TransitionProps} timeout={350}>
-                    <Paper>
-                      <Box
-                        className={classes.popover}
-                        style={{
-                          maxHeight: 200,
-                          minHeight: 100,
-                          width: 500
-                        }}
-                        component="div"
-                        overflow="scroll"
-                      >
-                        <LogData data={data} />
-                      </Box>
-                    </Paper>
-                  </Fade>
-                )}
-              </Popper>
+              {rowData.node_type.split(".")[0] === "process" && (
+                <React.Fragment>
+                  <Button
+                    aria-describedby={id}
+                    variant="outlined"
+                    disableRipple={true}
+                    onClick={event => handleClick(event, rowData.id)}
+                  >
+                    {statusFormat(
+                      rowData.attributes.process_state,
+                      rowData.attributes.exit_status
+                    )}
+                  </Button>
+                  <Popper
+                    id={id}
+                    open={open}
+                    anchorEl={anchorEl}
+                    transition
+                    placement="bottom-end"
+                  >
+                    {({ TransitionProps }) => (
+                      <Fade {...TransitionProps} timeout={350}>
+                        <Paper>
+                          <Box
+                            className={classes.popover}
+                            style={{
+                              maxHeight: 200,
+                              minHeight: 100,
+                              width: 500
+                            }}
+                            component="div"
+                            overflow="scroll"
+                          >
+                            <LogData data={data} />
+                          </Box>
+                        </Paper>
+                      </Fade>
+                    )}
+                  </Popper>
+                </React.Fragment>
+              )}
             </React.Fragment>
           )
         },
