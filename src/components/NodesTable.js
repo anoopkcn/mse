@@ -86,8 +86,8 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(0)
   },
   popover: {
-    border: "1px solid #3F51B5",
-    padding: theme.spacing(1)
+    border: "2px solid #3F51B5",
+    padding: theme.spacing(2)
   }
 }));
 
@@ -363,23 +363,22 @@ export default function NodesTable(props) {
             <React.Fragment>
               {rowData.node_type.split(".")[0] === "process" && (
                 <React.Fragment>
-                  <Button
-                    aria-describedby={id}
-                    variant="outlined"
-                    disableRipple={true}
+                  <span
+                    style={{ cursor: "default" }}
                     onClick={event => handleClick(event, rowData.id)}
                   >
                     {statusFormat(
                       rowData.attributes.process_state,
                       rowData.attributes.exit_status
                     )}
-                  </Button>
+                  </span>
                   <Popper
+                    style={{ zIndex: 2000 }}
                     id={id}
                     open={open}
                     anchorEl={anchorEl}
                     transition
-                    placement="bottom-end"
+                    placement="bottom"
                   >
                     {({ TransitionProps }) => (
                       <Fade {...TransitionProps} timeout={350}>
@@ -388,7 +387,7 @@ export default function NodesTable(props) {
                             className={classes.popover}
                             style={{
                               maxHeight: 200,
-                              minHeight: 100,
+                              minHeight: 60,
                               width: 500
                             }}
                             component="div"

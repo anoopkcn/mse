@@ -8,7 +8,6 @@ import BallotIcon from "@material-ui/icons/Ballot";
 import CastConnectedIcon from "@material-ui/icons/CastConnected";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Grow from "@material-ui/core/Grow";
 import Popper from "@material-ui/core/Popper";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -266,21 +265,17 @@ export default function Nodes() {
                     }}
                   >
                     <Paper id="menu-list-grow">
-                      <ClickAwayListener onClickAway={handleClose}>
-                        <MenuList>
-                          {intervalRep.map((option, index) => (
-                            <MenuItem
-                              key={option}
-                              selected={index === selectedIndex}
-                              onClick={event =>
-                                handleMenuItemClick(event, index)
-                              }
-                            >
-                              {option}
-                            </MenuItem>
-                          ))}
-                        </MenuList>
-                      </ClickAwayListener>
+                      <MenuList>
+                        {intervalRep.map((option, index) => (
+                          <MenuItem
+                            key={option}
+                            selected={index === selectedIndex}
+                            onClick={event => handleMenuItemClick(event, index)}
+                          >
+                            {option}
+                          </MenuItem>
+                        ))}
+                      </MenuList>
                     </Paper>
                   </Grow>
                 )}
