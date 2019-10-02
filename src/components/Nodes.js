@@ -12,7 +12,6 @@ import Grow from "@material-ui/core/Grow";
 import Popper from "@material-ui/core/Popper";
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
-
 import NodesTable from "./NodesTable";
 import "../assets/css/animations.css";
 import { AIIDA_RESTAPI_URL, startRestAPI, db_profile, db } from "../lib/global";
@@ -112,11 +111,11 @@ export default function Nodes() {
     setOpen(prevOpen => !prevOpen);
   };
 
-  const handleClose = event => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return;
-    }
-  };
+  // const handleClose = event => {
+  //   if (anchorRef.current && anchorRef.current.contains(event.target)) {
+  //     return;
+  //   }
+  // };
 
   if (!isDatabase) {
     startRestAPI();

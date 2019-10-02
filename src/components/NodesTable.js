@@ -9,7 +9,6 @@ import Grid from "@material-ui/core/Grid";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import { Attr } from "./Elements";
 import { withStyles } from "@material-ui/core/styles";
 import MuiExpansionPanel from "@material-ui/core/ExpansionPanel";
 import MuiExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
@@ -18,12 +17,11 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import DeviceHubIcon from "@material-ui/icons/DeviceHub";
-import Popper from "@material-ui/core/Popper";
-import Fade from "@material-ui/core/Fade";
-import Paper from "@material-ui/core/Paper";
 import Divider from "@material-ui/core/Divider";
+import Modal from "react-modal";
 import { flattenObject } from "../lib/utils";
 import { db } from "../lib/global";
+import { Attr } from "./Elements";
 
 const { clipboard } = window.require("electron");
 
@@ -84,10 +82,6 @@ const useStyles = makeStyles(theme => ({
   grid2: {
     border: 0,
     padding: theme.spacing(0)
-  },
-  popover: {
-    border: "2px solid #3F51B5",
-    padding: theme.spacing(2)
   }
 }));
 
@@ -278,6 +272,11 @@ function DetailsPanel(props) {
     </div>
   ); //<div>{rowData.node_type}</div>;
 }
+
+/**
+ * AiiDA node REPORT react component
+ * @param {object} props [reported message from AiiDA]
+ */
 function LogData(props) {
   var data = props.data;
   return data.map(row => (
@@ -305,7 +304,6 @@ export default function NodesTable(props) {
   };
 
   const open = Boolean(anchorEl);
-  const id = open ? "simple-popper" : undefined;
 
   function getLog(pk) {
     const queryText = `SELECT * FROM public.db_dblog where dbnode_id = ${pk} order by id desc`;
@@ -313,6 +311,7 @@ export default function NodesTable(props) {
       db.query(queryText, (err, res) => {
         if (res.rows) {
           setData(res.rows);
+          // console.log(res.rows);
           setLoaded(true);
         }
       });
@@ -338,7 +337,10 @@ export default function NodesTable(props) {
         pageSize: 15,
         pageSizeOptions: [],
         sorting: true,
-        grouping: false
+        grouping: false,
+        headerStyle: {
+          zIndex: 0
+        }
       }}
       icons={{
         SortArrow: forwardRef((props, ref) => (
@@ -372,33 +374,10 @@ export default function NodesTable(props) {
                       rowData.attributes.exit_status
                     )}
                   </span>
-                  <Popper
-                    style={{ zIndex: 2000 }}
-                    id={id}
-                    open={open}
-                    anchorEl={anchorEl}
-                    transition
-                    placement="bottom"
-                  >
-                    {({ TransitionProps }) => (
-                      <Fade {...TransitionProps} timeout={350}>
-                        <Paper>
-                          <Box
-                            className={classes.popover}
-                            style={{
-                              maxHeight: 200,
-                              minHeight: 60,
-                              width: 500
-                            }}
-                            component="div"
-                            overflow="scroll"
-                          >
-                            <LogData data={data} />
-                          </Box>
-                        </Paper>
-                      </Fade>
-                    )}
-                  </Popper>
+                  <Modal style={{ zIndex: 2100 }} isOpen={open}>
+                    <Button onClick={handleClick}>Close</Button>
+                    <LogData data={data} />
+                  </Modal>
                 </React.Fragment>
               )}
             </React.Fragment>

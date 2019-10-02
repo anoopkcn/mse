@@ -18,7 +18,7 @@ import WbCloudyIcon from "@material-ui/icons/WbCloudy";
 import AccountTreeIcon from "@material-ui/icons/AccountTree";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import { ThemeProvider } from "@material-ui/styles";
-
+import Modal from "react-modal";
 import { channels } from "../shared/constants";
 import Dashboard from "./Dashboard";
 import Plugins from "./Plugins";
@@ -70,7 +70,30 @@ const useStyles = makeStyles(theme => ({
     }
   }
 }));
-
+const modalStyle = {
+  content: {
+    width: "80%",
+    margin: "0 auto",
+    position: "absolute",
+    top: 40,
+    left: 100,
+    right: 40,
+    bottom: 40,
+    backgroundColor: "#ffffff",
+    border: "1px solid #3F51B5",
+    padding: "4px 7px"
+  },
+  overlay: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgb(128, 128, 128 ,0.15)"
+  }
+};
+Modal.setAppElement("#root");
+Modal.defaultStyles = modalStyle;
 export default function App() {
   const [appName, setAppName] = useState("");
   const [appVersion, setAppVersion] = useState("");
