@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { forwardRef } from "react";
 import MaterialTable from "material-table";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
@@ -17,11 +17,8 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import DeviceHubIcon from "@material-ui/icons/DeviceHub";
-import NotesIcon from "@material-ui/icons/Notes";
-import Divider from "@material-ui/core/Divider";
-import Modal from "react-modal";
 import { flattenObject } from "../lib/utils";
-import { db } from "../lib/global";
+import { LogButton } from "./Actions";
 import { Attr } from "./Elements";
 
 const { clipboard } = window.require("electron");
@@ -274,50 +271,11 @@ function DetailsPanel(props) {
   ); //<div>{rowData.node_type}</div>;
 }
 
-/**
- * AiiDA node REPORT react component
- * @param {object} props [reported message from AiiDA]
- */
-function LogData(props) {
-  var data = props.data;
-  return data.map(row => (
-    <span key={row.id}>
-      {row.message}
-      <Divider />
-    </span>
-  ));
-}
-
 export default function NodesTable(props) {
   var allNodes = props.data;
   var isDetailsPanel = props.detailsPanel;
   const classes = useStyles();
 
-  const [data, setData] = useState([]);
-  const [isLoaded, setLoaded] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const handleClick = (event, pk) => {
-    setAnchorEl(anchorEl ? null : event.currentTarget);
-    if (pk) getLog(pk);
-    setData([]);
-    setLoaded(false);
-  };
-
-  const open = Boolean(anchorEl);
-
-  function getLog(pk) {
-    const queryText = `SELECT * FROM public.db_dblog where dbnode_id = ${pk} order by id desc`;
-    if (!isLoaded) {
-      db.query(queryText, (err, res) => {
-        if (res.rows) {
-          setData(res.rows);
-          // console.log(res.rows);
-          setLoaded(true);
-        }
-      });
-    }
-  }
   return (
     <MaterialTable
       className={classes.root}
@@ -375,38 +333,12 @@ export default function NodesTable(props) {
           )
         },
         {
-          title: "Actions",
+          title: "",
           render: rowData => (
             <React.Fragment>
-              <Button onClick={event => handleClick(event, rowData.id)}>
-                <NotesIcon
-                  fontSize="small"
-                  disableRipple={true}
-                  color={
-                    rowData.node_type.split(".")[0] !== "process"
-                      ? "disabled"
-                      : "secondary"
-                  }
-                />
-                {rowData.node_type.split(".")[0] === "process" && (
-                  <Modal style={{ zIndex: 2100 }} isOpen={open}>
-                    <div style={{ height: 50 }}>
-                      <Button
-                        disableRipple={true}
-                        variant="outlined"
-                        fontSize="small"
-                        style={{ float: "right" }}
-                        onClick={handleClick}
-                      >
-                        Close
-                      </Button>
-                    </div>
-                    <LogData data={data} />
-                  </Modal>
-                )}
-              </Button>
-              <Button>
-                <DeviceHubIcon fontSize="small" disableRipple={true} />
+              <LogButton data={rowData} />
+              <Button disableRipple={true}>
+                <DeviceHubIcon fontSize="small" />
               </Button>
             </React.Fragment>
           )

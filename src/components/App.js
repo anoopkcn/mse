@@ -80,8 +80,9 @@ const modalStyle = {
     right: 40,
     bottom: 40,
     backgroundColor: "#ffffff",
-    border: "1px solid #3F51B5",
-    padding: "4px 20px"
+    border: "1px solid   rgb(85, 102, 195)",
+    padding: "4px 20px",
+    boxShadow: "2px 2px 3px 4px   rgb(85, 102, 195, 0.15)"
   }
   // overlay: {
   //   position: "fixed",
