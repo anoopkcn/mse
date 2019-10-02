@@ -81,16 +81,16 @@ const modalStyle = {
     bottom: 40,
     backgroundColor: "#ffffff",
     border: "1px solid #3F51B5",
-    padding: "4px 7px"
-  },
-  overlay: {
-    position: "fixed",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: "rgb(128, 128, 128 ,0.15)"
+    padding: "4px 20px"
   }
+  // overlay: {
+  //   position: "fixed",
+  //   top: 0,
+  //   left: 0,
+  //   right: 0,
+  //   bottom: 0,
+  //   backgroundColor: "rgb(128, 128, 128 ,0.15)"
+  // }
 };
 Modal.setAppElement("#root");
 Modal.defaultStyles = modalStyle;

@@ -17,6 +17,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import DeviceHubIcon from "@material-ui/icons/DeviceHub";
+import NotesIcon from "@material-ui/icons/Notes";
 import Divider from "@material-ui/core/Divider";
 import Modal from "react-modal";
 import { flattenObject } from "../lib/utils";
@@ -317,7 +318,6 @@ export default function NodesTable(props) {
       });
     }
   }
-
   return (
     <MaterialTable
       className={classes.root}
@@ -365,30 +365,50 @@ export default function NodesTable(props) {
             <React.Fragment>
               {rowData.node_type.split(".")[0] === "process" && (
                 <React.Fragment>
-                  <span
-                    style={{ cursor: "default" }}
-                    onClick={event => handleClick(event, rowData.id)}
-                  >
-                    {statusFormat(
-                      rowData.attributes.process_state,
-                      rowData.attributes.exit_status
-                    )}
-                  </span>
-                  <Modal style={{ zIndex: 2100 }} isOpen={open}>
-                    <Button onClick={handleClick}>Close</Button>
-                    <LogData data={data} />
-                  </Modal>
+                  {statusFormat(
+                    rowData.attributes.process_state,
+                    rowData.attributes.exit_status
+                  )}
                 </React.Fragment>
               )}
             </React.Fragment>
           )
         },
         {
-          title: "provanance",
+          title: "Actions",
           render: rowData => (
-            <Button>
-              <DeviceHubIcon fontSize="small" />
-            </Button>
+            <React.Fragment>
+              <Button onClick={event => handleClick(event, rowData.id)}>
+                <NotesIcon
+                  fontSize="small"
+                  disableRipple={true}
+                  color={
+                    rowData.node_type.split(".")[0] !== "process"
+                      ? "disabled"
+                      : "secondary"
+                  }
+                />
+                {rowData.node_type.split(".")[0] === "process" && (
+                  <Modal style={{ zIndex: 2100 }} isOpen={open}>
+                    <div style={{ height: 50 }}>
+                      <Button
+                        disableRipple={true}
+                        variant="outlined"
+                        fontSize="small"
+                        style={{ float: "right" }}
+                        onClick={handleClick}
+                      >
+                        Close
+                      </Button>
+                    </div>
+                    <LogData data={data} />
+                  </Modal>
+                )}
+              </Button>
+              <Button>
+                <DeviceHubIcon fontSize="small" disableRipple={true} />
+              </Button>
+            </React.Fragment>
           )
         }
       ]}
