@@ -11,12 +11,16 @@ import { db } from "../lib/global";
  */
 function LogData(props) {
   var data = props.data;
-  return data.map(row => (
-    <span key={row.id}>
-      {row.message}
-      <Divider />
-    </span>
-  ));
+  if (data.length !== 0) {
+    return data.map(row => (
+      <span key={row.id}>
+        {row.message}
+        <Divider />
+      </span>
+    ));
+  } else {
+    return <span>No REPORT associated with this calculation</span>;
+  }
 }
 
 export function LogButton(props) {
@@ -40,7 +44,7 @@ export function LogButton(props) {
       db.query(queryText, (err, res) => {
         if (res.rows) {
           setData(res.rows);
-          // console.log(res.rows);
+          // console.log(res.rows.length);
           setLoaded(true);
         }
       });
