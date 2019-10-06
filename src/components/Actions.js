@@ -14,8 +14,8 @@ function LogData(props) {
   if (data.length !== 0) {
     return data.map(row => (
       <span key={row.id}>
-        {row.message}
         <Divider />
+        {row.message}
       </span>
     ));
   } else {
