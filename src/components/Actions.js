@@ -51,18 +51,20 @@ export function LogButton(props) {
     }
   }
   return (
-    <Button
-      disableRipple={true}
-      onClick={event => handleClick(event, rowData.id)}
-    >
-      <NotesIcon
-        fontSize="small"
-        color={
-          rowData.node_type.split(".")[0] !== "process"
-            ? "disabled"
-            : "secondary"
-        }
-      />
+    <React.Fragment>
+      <Button
+        disableRipple={true}
+        onClick={event => handleClick(event, rowData.id)}
+      >
+        <NotesIcon
+          fontSize="small"
+          color={
+            rowData.node_type.split(".")[0] !== "process"
+              ? "disabled"
+              : "secondary"
+          }
+        />
+      </Button>
       {rowData.node_type.split(".")[0] === "process" && (
         <Modal style={{ zIndex: 2100 }} isOpen={open}>
           <div style={{ height: 50 }}>
@@ -79,6 +81,6 @@ export function LogButton(props) {
           <LogData data={data} />
         </Modal>
       )}
-    </Button>
+    </React.Fragment>
   );
 }
