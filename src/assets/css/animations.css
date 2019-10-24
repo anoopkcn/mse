@@ -3,7 +3,9 @@
     /*height: 40vmin;*/
     pointer-events: none;
 }
-
+/*.ReactModal__Body--open {
+    overflow: scroll;
+}*/
 @keyframes logo-spin {
     from {
         transform: rotate(0deg);
