@@ -6,7 +6,7 @@ const useStyles = makeStyles(theme => ({
     background: "#D9DBDE",
     padding: "4px 7px",
     borderRadius: 3,
-    cursor: "copy"
+    cursor: "default"
     // "&::after": {
     //   content: '"xx"'
     // }
@@ -16,3 +16,14 @@ export function Attr(props) {
   const classes = useStyles();
   return <span className={classes.attr}>{props.children}</span>;
 }
+
+export const modalStyle = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)"
+  }
+};

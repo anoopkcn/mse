@@ -87,7 +87,7 @@ export default function VerdiStatus() {
             <WarningIcon className={clsx(classes.icon, classes.iconVariant)} />
             <Box fontStyle="italic" m={1}>
               Did not find python environment. Add path to the <code>bin</code>{" "}
-              of your environment in <code>~/.elemental</code> JSON file.
+              of your environment in <code>~/.mse</code> JSON file.
               {"{"}
               <code>"python_env": "/path/to/python_env"</code>
               {"}"}
