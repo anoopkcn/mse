@@ -4,7 +4,7 @@ import Modal from "react-modal";
 import NotesIcon from "@material-ui/icons/Notes";
 import Divider from "@material-ui/core/Divider";
 import { db } from "../lib/global";
-import { utils } from "../lib/utils";
+import {catRemoteFile} from "../lib/utils";
 
 /**
  * AiiDA node REPORT react component
@@ -100,8 +100,8 @@ export function LogButton(props) {
 export function CatFile(props) {
   var rowData = props.data;
   var computerId = props.computerId;
-  var remoteWorkdir = props.remoteWorkdir;
   var remotePath = props.remotePath;
+  var remoteWorkdir = (remotePath)? remotePath:props.remoteWorkdir;
   const [data, setData] = useState([]);
   const [isLoaded, setLoaded] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -117,13 +117,6 @@ export function CatFile(props) {
 
   const open = Boolean(anchorEl);
 
-  function catFile(hostname, username, remoteWorkdir, fileName) {
-    var stdout = utils.execSync(
-      `ssh ${username}@${hostname} cat ${remoteWorkdir}/${fileName}`
-    );
-    return stdout.split("\n");
-  }
-
   function getText(remoteWorkdir, computerId) {
     const queryText = `SELECT * FROM public.db_dbauthinfo where dbcomputer_id = ${computerId} order by id desc`;
     if (!isLoaded) {
@@ -131,10 +124,7 @@ export function CatFile(props) {
         if (res.rows) {
           hostname = res.rows[0]["auth_params"]["gss_host"];
           username = res.rows[0]["auth_params"]["username"];
-          // console.log(
-          //   catFile(hostname, username, remoteWorkdir, rowData.content)
-          // );
-          setData(catFile(hostname, username, remoteWorkdir, rowData.content));
+          setData(catRemoteFile(hostname, username, remoteWorkdir, rowData));
           setLoaded(true);
         }
       });
@@ -146,7 +136,7 @@ export function CatFile(props) {
         disableRipple={true}
         onClick={event => handleClick(event, remoteWorkdir, computerId)}
       >
-        {rowData.content}
+        {rowData}
       </Button>
       <Modal style={{ zIndex: 2100 }} isOpen={open}>
         <div style={{ height: 50 }}>

@@ -24,6 +24,22 @@ export function flattenObject(obj, prefix = "") {
   }, {});
 }
 
+export function catRemoteFile(hostname, username, remoteWorkdir, fileName) {
+    if (! (fileName.split('.').pop()==='hdf')){
+      var stdout = utils.execSync(
+        `ssh ${username}@${hostname} cat ${remoteWorkdir}/${fileName}`
+      );
+      return stdout.split("\n");
+    }else{
+      return ["Cannot find the view protocol for the selected file (Object files and HDF5 files do not have a stdout format)"]
+    }
+  }
+export function lsRemoteDir(hostname, username, remoteDir) {
+      var stdout = utils.execSync(
+        `ssh ${username}@${hostname} ls ${remoteDir}`
+      );
+      return stdout.split("\n");
+  }
 export const utils = {
   /**
    * exec command with maxBuffer size
@@ -39,7 +55,7 @@ export const utils = {
     );
   },
   execSync(cmd) {
-    return cp.execSync(cmd).toString();
+    return cp.execSync(cmd,{encoding:'utf-8', windowsHide: true}).toString();
   },
   /**
    * spawn command

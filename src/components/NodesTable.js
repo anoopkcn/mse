@@ -17,7 +17,8 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import DeviceHubIcon from "@material-ui/icons/DeviceHub";
-import { flattenObject } from "../lib/utils";
+// import { db } from "../lib/global";
+import { flattenObject, /*lsRemoteDir*/} from "../lib/utils";
 import { LogButton, CatFile } from "./Actions";
 import { Attr } from "./Elements";
 
@@ -136,22 +137,23 @@ function DetailsPanel(props) {
     }
     return mRows;
   }
-  function getFiles(data) {
+  function getFiles(data, computerId) {
     var mRows = [];
     var remoteDir = data.remote_workdir;
     var retrieveList = data.retrieve_list;
     var remotePath = data.remote_path;
     if (remoteDir && retrieveList) {
-      var obj = flattenObject(retrieveList);
-      for (var key in obj) {
-        if (obj.hasOwnProperty(key)) {
-          mRows.push(createData(key, obj[key]));
-        }
-      }
-      return mRows;
+      return retrieveList;
     } else if (remotePath) {
-      // Fetch list from remote and show it
-      return mRows;
+      // const queryText = `SELECT * FROM public.db_dbauthinfo where dbcomputer_id = ${computerId} order by id desc`;
+      // db.query(queryText, (err, res) => {
+      //   if (res.rows) {
+      //     var hostname = res.rows[0]["auth_params"]["gss_host"];
+      //     var username = res.rows[0]["auth_params"]["username"];
+      //     mRows=lsRemoteDir(hostname, username, remotePath) //.slice(0,-1).map((val,index)=> createData(index,val) )
+      //   }
+      // });
+      return mRows
     } else {
       return mRows;
     }
@@ -254,18 +256,17 @@ function DetailsPanel(props) {
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
                   <List dense={true}>
-                    {getFiles(rowData.attributes).map(row => (
-                      <ListItem key={"key" + row.property}>
+                    {getFiles(rowData.attributes,rowData.dbcomputer_id).map( (row,index) => (
+                      <ListItem key={index}>
                         <CatFile
                           data={row}
                           computerId={rowData.dbcomputer_id}
                           remoteWorkdir={rowData.attributes.remote_workdir}
                           remotePath={rowData.attributes.remote_path}
-                        />
+                        /> 
                       </ListItem>
                     ))}
                   </List>
-                  {/*<Typography>Input Files and Output files</Typography> */}
                 </ExpansionPanelDetails>
               </ExpansionPanel>
               <ExpansionPanel square defaultExpanded={true}>
