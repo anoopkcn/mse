@@ -14,40 +14,59 @@ export function flattenArray(obj) {
   return farray;
 }
 
-export function flattenObject(obj, prefix = "") {
-  return Object.keys(obj).reduce((acc, k) => {
-    const pre = prefix.length ? prefix + "." : "";
-    if (typeof obj[k] === "object")
-      Object.assign(acc, flattenObject(obj[k], pre + k));
-    else acc[pre + k] = obj[k];
-    return acc;
-  }, {});
-}
+// export function flattenObject(obj, prefix = "") {
+//   return Object.keys(obj).reduce((acc, k) => {
+//     const pre = prefix.length ? prefix + "." : "";
+//     if (typeof obj[k] === "object")
+//       Object.assign(acc, flattenObject(obj[k], pre + k));
+//     else acc[pre + k] = obj[k];
+//     return acc;
+//   }, {});
+// }
 
-export function catRemoteFile(hostname, username, remoteWorkdir, fileName) {
-    if (! (fileName.split('.').pop()==='hdf')){
-      var stdout = utils.execSync(
-        `ssh ${username}@${hostname} cat ${remoteWorkdir}/${fileName}`
-      );
-      return stdout.split("\n");
-    }else{
-      return ["Cannot find the view protocol for the selected file (Object files and HDF5 files do not have a stdout format)"]
+export function flattenObject(ob) {
+  var toReturn = {};
+
+  for (var i in ob) {
+    if (!ob.hasOwnProperty(i)) continue;
+
+    if ((typeof ob[i]) == 'object') {
+      var flatObject = flattenObject(ob[i]);
+      for (var x in flatObject) {
+        if (!flatObject.hasOwnProperty(x)) continue;
+
+        toReturn[i + '.' + x] = flatObject[x];
+      }
+    } else {
+      toReturn[i] = ob[i];
     }
   }
-export function lsRemoteDir(hostname, username, remoteDir) {
-      var stdout = utils.execSync(
-        `ssh ${username}@${hostname} ls ${remoteDir}`
-      );
-      return stdout.split("\n");
+  return toReturn;
+};
+
+export function catRemoteFile(hostname, username, remoteWorkdir, fileName) {
+  if (!(fileName.split('.').pop() === 'hdf')) {
+    var stdout = utils.execSync(
+      `ssh ${username}@${hostname} cat ${remoteWorkdir}/${fileName}`
+    );
+    return stdout.split("\n");
+  } else {
+    return ["Cannot find the view protocol for the selected file (Object files and HDF5 files do not have a stdout format)"]
   }
+}
+export function lsRemoteDir(hostname, username, remoteDir) {
+  var stdout = utils.execSync(
+    `ssh ${username}@${hostname} ls ${remoteDir}`
+  );
+  return stdout.split("\n");
+}
 export const utils = {
   /**
    * exec command with maxBuffer size
    */
   exec(cmd, callback) {
     cp.exec(
-      cmd,
-      {
+      cmd, {
         maxBuffer: 2 * UNIT_MB,
         windowsHide: true
       },
@@ -55,7 +74,10 @@ export const utils = {
     );
   },
   execSync(cmd) {
-    return cp.execSync(cmd,{encoding:'utf-8', windowsHide: true}).toString();
+    return cp.execSync(cmd, {
+      encoding: 'utf-8',
+      windowsHide: true
+    }).toString();
   },
   /**
    * spawn command
