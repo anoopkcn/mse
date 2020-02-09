@@ -76,11 +76,11 @@ const useStyles = makeStyles(theme => ({
   },
   box: {
     border: "1px solid rgba(0, 0, 0, .125)",
-    padding: theme.spacing(0)
+    // padding: theme.spacing(0)
   },
   grid2: {
     border: 0,
-    padding: theme.spacing(0)
+    // padding: theme.spacing(0)
   }
 }));
 
@@ -127,7 +127,9 @@ function createData(property, content) {
 function DetailsPanel(props) {
   const rowData = props.data;
   const classes = useStyles();
-  function getMetadata(data) {
+  function getMetadata(data_t) {
+    var data;
+    data=data_t.attributes
     var mRows = [];
     var obj = flattenObject(data);
     for (var key in obj) {
@@ -164,9 +166,10 @@ function DetailsPanel(props) {
     createData("Node Type", rowData.node_type),
     createData("Created", rowData.ctime.toString()),
     createData("Modified", rowData.mtime.toString()),
-    createData("Label", rowData.label),
-    createData("Description", rowData.description)
+    createData("Label", rowData.label.trim()),
+    createData("Description", rowData.description.trim())
   ];
+  const metareg=RegExp('detailed_job_info.*')
   return (
     <div className={classes.details}>
       <Grid container spacing={3}>
@@ -277,9 +280,9 @@ function DetailsPanel(props) {
                 >
                   <Typography className={classes.heading}>Metadata</Typography>
                 </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
+                <ExpansionPanelDetails> 
                   <List dense={true}>
-                    {getMetadata(rowData.attributes).map(row => (
+                    {getMetadata(rowData).map(row => (
                       <ListItem key={"key" + row.property}>
                         <ListItemText
                           primary={
@@ -287,7 +290,7 @@ function DetailsPanel(props) {
                               <span onClick={() => copyToClip(row.content)}>
                                 <Attr>{row.property}</Attr>
                               </span>{" "}
-                              {row.content}
+                              {!metareg.test(row.property) && row.content}
                             </span>
                           }
                         />
@@ -306,6 +309,7 @@ function DetailsPanel(props) {
 
 export default function NodesTable(props) {
   var allNodes = props.data;
+  const REST = props.rest;
   var isDetailsPanel = props.detailsPanel;
   const classes = useStyles();
 
@@ -325,10 +329,11 @@ export default function NodesTable(props) {
         }
       }}
       options={{
-        pageSize: 15,
+        pageSize: 20,
         pageSizeOptions: [],
         sorting: true,
         grouping: false,
+        padding:"dense",
         headerStyle: {
           zIndex: 0
         }
@@ -356,7 +361,7 @@ export default function NodesTable(props) {
             <React.Fragment>
               {rowData.node_type.split(".")[0] === "process" && (
                 <React.Fragment>
-                  {statusFormat(
+                  {REST===false && statusFormat(
                     rowData.attributes.process_state,
                     rowData.attributes.exit_status
                   )}

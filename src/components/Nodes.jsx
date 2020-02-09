@@ -90,13 +90,13 @@ export default function Nodes() {
     if (isActive) return "secondary";
   };
 
-  const switchDatabase = () => {
-    if (isRestAPI !== true) setDatabase(!isDatabase);
+  const activateDatabase = () => {
+    setDatabase(true);
+    setRestAPI(false);
   };
-  const switchRestAPI = () => {
-    if (isDatabase !== true) {
-      setRestAPI(!isRestAPI);
-    }
+  const activateRestAPI = () => {
+    setDatabase(false);
+    setRestAPI(true);
   };
 
   const handleMenuItemClick = (event, index) => {
@@ -161,14 +161,14 @@ export default function Nodes() {
       nodesTable = (
         <div>
           You have to set the path to aiida config and start the postgress
-          server{" "}
+          server or start remote REST API connection{" "}
         </div>
       );
     } else if (isDatabase && !isRestAPI && !data.data) {
-      nodesTable = <NodesTable data={data} detailsPanel={isIntervel} />;
+      nodesTable = <NodesTable data={data} rest={isRestAPI} detailsPanel={isIntervel} />;
     } else if (isRestAPI && !isDatabase && data.data) {
       nodesTable = (
-        <NodesTable data={data.data.nodes} detailsPanel={isIntervel} />
+        <NodesTable data={data.data.nodes} rest={isRestAPI} detailsPanel={isIntervel} />
       );
     } else {
       nodesTable = (
@@ -206,14 +206,14 @@ export default function Nodes() {
                     disableRipple={true}
                     variant="outlined"
                     className={classes.button}
-                    onClick={switchDatabase}
+                    onClick={activateDatabase}
                   >
                     <BallotIcon color={activeColor(isDatabase)} />
                   </Button>
                   <Button
                     disableRipple={true}
                     variant="outlined"
-                    onClick={switchRestAPI}
+                    onClick={activateRestAPI}
                   >
                     <CastConnectedIcon color={activeColor(isRestAPI)} />
                   </Button>

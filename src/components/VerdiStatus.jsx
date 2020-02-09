@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import { withStyles } from "@material-ui/core/styles";
@@ -67,9 +67,9 @@ function getStatus() {
 export default function VerdiStatus() {
   const [items, setData] = useState([]);
 
-  useEffect(() => {
-    setData(getStatus());
-  }, []);
+  // useEffect(() => {
+  //   setData(getStatus());
+  // }, []);
 
   const updateStatus = () => {
     setData(getStatus());

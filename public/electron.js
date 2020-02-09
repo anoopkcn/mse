@@ -23,6 +23,7 @@ function initialize() {
             height: 680,
             webPreferences: {
                 nodeIntegration: true,
+                webSecurity: false,
                 preload: path.join(__dirname, "preload.js")
             }
         });
