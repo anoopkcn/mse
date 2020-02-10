@@ -126,6 +126,7 @@ function createData(property, content) {
 
 function DetailsPanel(props) {
   const rowData = props.data;
+  const REST = props.rest;
   const classes = useStyles();
   function getMetadata(data_t) {
     var data;
@@ -166,8 +167,8 @@ function DetailsPanel(props) {
     createData("Node Type", rowData.node_type),
     createData("Created", rowData.ctime.toString()),
     createData("Modified", rowData.mtime.toString()),
-    createData("Label", rowData.label.trim()),
-    createData("Description", rowData.description.trim())
+    createData("Label", rowData.label),
+    createData("Description", rowData.description)
   ];
   const metareg=RegExp('detailed_job_info.*')
   return (
@@ -259,7 +260,7 @@ function DetailsPanel(props) {
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
                   <List dense={true}>
-                    {getFiles(rowData.attributes,rowData.dbcomputer_id).map( (row,index) => (
+                    {REST===false && getFiles(rowData.attributes,rowData.dbcomputer_id).map( (row,index) => (
                       <ListItem key={index}>
                         <CatFile
                           data={row}

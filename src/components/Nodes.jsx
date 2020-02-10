@@ -162,7 +162,7 @@ export default function Nodes() {
       nodesTable = (
         <div>
           You have to set the path to aiida config and start the postgress
-          server or start remote REST API connection{" "}
+          server or start remote REST API connection on port 5791{" "}
         </div>
       );
     } else if (isDatabase && !isRestAPI && !data.data) {
