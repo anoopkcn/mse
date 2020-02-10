@@ -80,10 +80,11 @@ const modalStyle = {
     right: 40,
     bottom: 40,
     backgroundColor: "#ffffff",
-    border: "1px solid   rgb(0, 161, 82)",
-    padding: "4px 20px",
-    boxShadow: "2px 2px 3px 4px   rgb(0, 161, 82, 0.15)",
-    borderRadius: 5
+    border: "1px solid #cccccc",
+    padding: "0 20px 4px 20px",
+    boxShadow: "1px 1px 2px 2px rgba(0, 0, 0, .2)",
+    borderRadius: 5,
+    overflow:'scroll',
   }
   // overlay: {
   //   position: "fixed",

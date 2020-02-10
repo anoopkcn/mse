@@ -15,8 +15,8 @@ function LogData(props) {
   if (data.length !== 0) {
     return data.map(row => (
       <span key={row.id}>
-        <Divider />
         {row.message}
+        <Divider />
       </span>
     ));
   } else {
@@ -80,7 +80,14 @@ export function LogButton(props) {
       </Button>
       {rowData.node_type.split(".")[0] === "process" && (
         <Modal style={{ zIndex: 2100 }} isOpen={open}>
-          <div style={{ height: 50 }}>
+          <div style={
+            { width:'77%',
+            position:'fixed', 
+            paddingTop:4, 
+            paddingBottom:4, 
+            backgroundColor:'#ffffff',
+            borderBottom: "1px solid #cccccc",
+            }}>
             <Button
               disableRipple={true}
               variant="outlined"
@@ -91,6 +98,7 @@ export function LogButton(props) {
               Close
             </Button>
           </div>
+          <div style={{height:50}}></div>
           <LogData data={data} />
         </Modal>
       )}
