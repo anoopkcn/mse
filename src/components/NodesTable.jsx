@@ -285,12 +285,12 @@ function DetailsPanel(props) {
                     {getMetadata(rowData).map(row => (
                       <ListItem key={"key" + row.property}>
                         <ListItemText
-                          primary={
+                          primary={!metareg.test(row.property) && 
                             <span>
                               <span onClick={() => copyToClip(row.content)}>
                                 <Attr>{row.property}</Attr>
                               </span>{" "}
-                              {!metareg.test(row.property) && row.content}
+                              {row.content}
                             </span>
                           }
                         />

@@ -14,7 +14,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
 import NodesTable from "./NodesTable";
 import "../assets/css/animations.css";
-import { AIIDA_RESTAPI_URL, startRestAPI, db_profile, db } from "../lib/global";
+import { AIIDA_RESTAPI_URL, db_profile, db } from "../lib/global";
 
 const url = `${AIIDA_RESTAPI_URL}/nodes?orderby=-id`;
 
@@ -117,9 +117,10 @@ export default function Nodes() {
   //   }
   // };
 
-  if (!isDatabase) {
-    startRestAPI();
-  }
+  // Make the User start the REST API
+  // if (!isDatabase) {
+  //   startRestAPI();
+  // }
   useEffect(() => {
     let didCancel = false;
     async function fetchData() {
