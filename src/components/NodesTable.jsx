@@ -126,7 +126,7 @@ function createData(property, content) {
 
 function DetailsPanel(props) {
   const rowData = props.data;
-  const REST = props.rest;
+  // const REST = props.rest;
   const classes = useStyles();
   function getMetadata(data_t) {
     var data;
@@ -260,7 +260,7 @@ function DetailsPanel(props) {
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
                   <List dense={true}>
-                    {REST===false && getFiles(rowData.attributes,rowData.dbcomputer_id).map( (row,index) => (
+                    {getFiles(rowData.attributes,rowData.dbcomputer_id).map( (row,index) => (
                       <ListItem key={index}>
                         <CatFile
                           data={row}
