@@ -354,7 +354,7 @@ export default function NodesTable(props) {
             <span>{getLast(rowData.node_type.split("."), 2)}</span>
           )
         },
-        { title: "Label", field: "label" },
+        { title: "Label", field: "label" , render: rowData=>(rowData.label.substring(0,24))},
         {
           title: "Status",
           field: "attributes.process_state",
