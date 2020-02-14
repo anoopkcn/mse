@@ -129,10 +129,13 @@ export function CatFile(props) {
     const queryText = `SELECT * FROM public.db_dbauthinfo where dbcomputer_id = ${computerId} order by id desc`;
     if (!isLoaded) {
       db.query(queryText, (err, res) => {
-        if (res.rows) {
+        if (res.rows.length) {
           hostname = res.rows[0]["auth_params"]["gss_host"];
           username = res.rows[0]["auth_params"]["username"];
           setData(catRemoteFile(hostname, username, remoteWorkdir, rowData));
+          setLoaded(true);
+        }else{
+          setData(['This node might be imported from a different database. Computer ID cannot be determined. Please use the terminal'])
           setLoaded(true);
         }
       });
