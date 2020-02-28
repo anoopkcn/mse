@@ -37,15 +37,15 @@ function initialize() {
 
     app.on("ready", createWindow);
 
-    var ports = [];
-    ipcMain.on(channels.PORT_MESSAGE, (event, arg) => {
-        ports.push(arg);
-        event.sender.send(channels.PORT_MESSAGE, ports);
-    });
+    // var ports = [];
+    // ipcMain.on(channels.PORT_MESSAGE, (event, arg) => {
+    //     ports.push(arg);
+    //     event.sender.send(channels.PORT_MESSAGE, ports);
+    // });
 
-    app.on("before-quit", () => {
-        killPort(ports[0], "tcp");
-    });
+    // app.on("before-quit", () => {
+    //     killPort(ports[0], "tcp");
+    // });
 
     app.on("window-all-closed", () => {
         if (process.platform !== "darwin") {

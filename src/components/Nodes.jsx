@@ -14,9 +14,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
 import NodesTable from "./NodesTable";
 import "../assets/css/animations.css";
-import { AIIDA_RESTAPI_URL, db_profile, db } from "../lib/global";
+import { db } from "../lib/global";
 
-const url = `${AIIDA_RESTAPI_URL}/nodes?orderby=-id`;
 
 const intervalRep = ["1s", "2s", "5s", "10s", "20s"];
 const intervalTime = [1, 2, 5, 10, 20];
@@ -49,28 +48,11 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function fetchNode() {
-  if (AIIDA_RESTAPI_URL) {
-    return fetch(url)
-      .then(result => result.json())
-      .then(result => {
-        if (result.data) {
-          return result;
-        } else {
-          return false;
-        }
-      })
-      .catch(error => {
-        return false;
-      });
-  }
-}
-
 export default function Nodes() {
   const [data, setData] = useState({});
   const [isLoaded, setLoaded] = useState(false);
   const [isDatabase, setDatabase] = useState(true);
-  const [isRestAPI, setRestAPI] = useState(false);
+  const isRemoteDB = false
 
   //for split button
   const [open, setOpen] = useState(false);
@@ -92,11 +74,6 @@ export default function Nodes() {
 
   const activateDatabase = () => {
     setDatabase(true);
-    setRestAPI(false);
-  };
-  const activateRestAPI = () => {
-    setDatabase(false);
-    setRestAPI(true);
   };
 
   const handleMenuItemClick = (event, index) => {
@@ -124,26 +101,17 @@ export default function Nodes() {
   useEffect(() => {
     let didCancel = false;
     async function fetchData() {
-      if (db_profile && isDatabase) {
+      if (isDatabase) {
         db.query(queryText, (err, res) => {
           if (!err && !didCancel) {
             setData(res.rows);
             setLoaded(true);
           }
         });
-      } else if (isRestAPI) {
-        fetchNode()
-          .then(result => {
-            if (result.data && !didCancel) {
-              setData(result);
-              setLoaded(true);
-            }
-          })
-          .catch(error => setLoaded(false));
       }
     }
 
-    if (isDatabase || isRestAPI) {
+    if (isDatabase) {
       fetchData();
       if (isIntervel) {
         setInterval(() => {
@@ -154,23 +122,19 @@ export default function Nodes() {
     return () => {
       didCancel = true;
     };
-  }, [isDatabase, isRestAPI, fetchInterval, isIntervel]);
+  }, [isDatabase, fetchInterval, isIntervel]);
 
   let nodesTable;
   if (isLoaded && data) {
-    if (isDatabase === false && isRestAPI === false) {
+    if (isDatabase === false) {
       nodesTable = (
         <div>
           You have to set the path to aiida config and start the postgress
           server or start remote REST API connection on port 5791{" "}
         </div>
       );
-    } else if (isDatabase && !isRestAPI && !data.data) {
-      nodesTable = <NodesTable data={data} rest={isRestAPI} detailsPanel={isIntervel} />;
-    } else if (isRestAPI && !isDatabase && data.data) {
-      nodesTable = (
-        <NodesTable data={data.data.nodes} rest={isRestAPI} detailsPanel={isIntervel} />
-      );
+    } else if (isDatabase && !data.data) {
+      nodesTable = <NodesTable data={data} detailsPanel={isIntervel} />;
     } else {
       nodesTable = (
         <div className={classes.loading}>
@@ -214,9 +178,9 @@ export default function Nodes() {
                   <Button
                     disableRipple={true}
                     variant="outlined"
-                    onClick={activateRestAPI}
+                    // onClick={activateRestAPI}
                   >
-                    <CastConnectedIcon color={activeColor(isRestAPI)} />
+                    <CastConnectedIcon color={activeColor(isRemoteDB)} />
                   </Button>
                 </Grid>
                 <Grid item xs={2} align="right">

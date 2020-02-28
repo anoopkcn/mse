@@ -126,7 +126,6 @@ function createData(property, content) {
 
 function DetailsPanel(props) {
   const rowData = props.data;
-  // const REST = props.rest;
   const classes = useStyles();
   function getMetadata(data_t) {
     var data;
@@ -310,7 +309,6 @@ function DetailsPanel(props) {
 
 export default function NodesTable(props) {
   var allNodes = props.data;
-  const REST = props.rest;
   var isDetailsPanel = props.detailsPanel;
   const classes = useStyles();
 
@@ -362,7 +360,7 @@ export default function NodesTable(props) {
             <React.Fragment>
               {rowData.node_type.split(".")[0] === "process" && (
                 <React.Fragment>
-                  {REST===false && statusFormat(
+                  {statusFormat(
                     rowData.attributes.process_state,
                     rowData.attributes.exit_status
                   )}
