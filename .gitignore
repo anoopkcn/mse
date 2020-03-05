@@ -9,3 +9,4 @@
 .DS_Store
 npm-debug.log*
 testfile.json
+package-lock.json
