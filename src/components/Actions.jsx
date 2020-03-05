@@ -2,9 +2,20 @@ import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import Modal from "react-modal";
 import NotesIcon from "@material-ui/icons/Notes";
+import DeviceHubIcon from "@material-ui/icons/DeviceHub";
 import Divider from "@material-ui/core/Divider";
 import { db } from "../lib/global";
-import {catRemoteFile} from "../lib/utils";
+import {catRemoteFile, pprint} from "../lib/utils";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import { Attr } from "./Elements";
+
+const { clipboard } = window.require("electron");
+
+function copyToClip(text) {
+  clipboard.writeText(text.toString());
+}
 
 /**
  * AiiDA node REPORT react component
@@ -21,18 +32,6 @@ function LogData(props) {
     ));
   } else {
     return <span>No REPORT associated with this calculation</span>;
-  }
-}
-function CatData(props) {
-  var data = props.data;
-  if (data.length !== 0) {
-    return data.map((row, index) => (
-      <p style={{ margin: 0 }} key={index}>
-        {row}
-      </p>
-    ));
-  } else {
-    return <span>Loading from remote...</span>;
   }
 }
 
@@ -92,7 +91,7 @@ export function LogButton(props) {
               disableRipple={true}
               variant="outlined"
               fontSize="small"
-              style={{ float: "right" }}
+              style={{ float: "left" }}
               onClick={handleClick}
             >
               Close
@@ -105,6 +104,174 @@ export function LogButton(props) {
     </React.Fragment>
   );
 }
+
+/**
+ * Provanance graph or input/output nodes
+ * @param {*} props 
+ */
+ 
+function LinkDetails(props){
+  var data = props.data;
+  const [metadata, setMetaData] = useState([]);
+  const [isLoaded, setLoaded] = useState(false);
+
+  const handleClick = (pk) => {
+    if (pk) getMetadata(pk);
+    setMetaData([]);
+    setLoaded(false);
+  };
+
+  function getMetadata(pk){
+    const queryText = `SELECT * FROM db_dbnode where id = ${pk}`;
+    db.query(queryText, (err, res) => {
+      if (res.rows) {
+        setMetaData(res.rows);
+        setLoaded(true);
+      }
+    });
+  }
+
+  if (data.length !== 0) {
+    return <div style={{width:"100%"}}>
+      <div style={{
+        width:"30%", 
+        float:"left",
+        position:"fixed"
+        }}>
+      <table style={{width:"100%",textAlign: 'left', border: "1px solid rgba(0, 0, 0, .125)"}}>
+      <thead>
+        <tr key={"trhead"}>
+          <th key={"label"}>label</th>
+          <th key={"input"}>input</th> 
+          <th key={"output"}>output</th>
+          <th key={"type"}>type</th>
+        </tr>
+        </thead>
+        <tbody>
+        {data.map(row => (
+          <tr key={`tr${row.id}`}>
+          <td key={`l${row.id}`} >{row.label}</td>
+          <td  key={`i${row.id}`} >
+            <Button disableRipple={true} onClick={() => handleClick(row.input_id)} >
+              {row.input_id}
+            </Button>
+            </td>
+          <td key={`o${row.id}`}>
+            <Button disableRipple={true} onClick={() => handleClick(row.output_id)} >
+            {row.output_id}
+            </Button>
+          </td>
+          <td key={`t${row.id}`} >{row.type}</td>
+          </tr>
+        ))}
+        </tbody>
+      </table>
+      </div>
+      <div style={{
+        width:"50%", 
+        float:"right", 
+        overflowWrap: "break-word",
+        }}>
+          {isLoaded && 
+          <List dense={true}>
+          {pprint(metadata[0]).map(row => (
+            <ListItem key={"key" + row.property}>
+              <ListItemText
+                primary={
+                  <span>
+                    <span onClick={() => copyToClip(row.content)}>
+                      <Attr>{row.property}</Attr>
+                    </span>{" "}
+                    {row.content}
+                  </span>
+                }
+              />
+            </ListItem>
+          ))}
+          </List>
+           }
+      </div>
+
+    </div>
+  } else {
+    return <span>No nodes associated with this one</span>;
+  }
+}
+export function LinkButton(props){
+  var rowData = props.data;
+  const [data, setData] = useState([]);
+  const [isLoaded, setLoaded] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event, pk) => {
+    setAnchorEl(anchorEl ? null : event.currentTarget);
+    if (pk) getLinks(pk);
+    setData([]);
+    setLoaded(false);
+  };
+
+  const open = Boolean(anchorEl);
+
+  function getLinks(pk) {
+    const queryText = `SELECT * FROM public.db_dblink where output_id = ${pk} or input_id = ${pk}`;
+    if (!isLoaded) {
+      db.query(queryText, (err, res) => {
+        if (res.rows) {
+          setData(res.rows);
+          // console.log(res.rows.length);
+          setLoaded(true);
+        }
+      });
+    }
+  }
+  return (
+    <React.Fragment>
+      <Button
+        disableRipple={true}
+        onClick={event => handleClick(event, rowData.id)}
+      >
+        <DeviceHubIcon fontSize="small" color="secondary" />
+      </Button>
+        <Modal style={{ zIndex: 2100 }} isOpen={open}>
+          <div style={
+            { width:'77%',
+            position:'fixed', 
+            paddingTop:4, 
+            paddingBottom:4, 
+            backgroundColor:'#ffffff',
+            borderBottom: "1px solid #cccccc",
+            }}>
+            <Button
+              disableRipple={true}
+              variant="outlined"
+              fontSize="small"
+              style={{ float: "left" }}
+              onClick={handleClick}
+            >
+              Close
+            </Button>
+          </div>
+          <div style={{height:50}}></div>
+          <LinkDetails data={data} />
+        </Modal>
+    </React.Fragment>
+  );
+}
+
+// Cat output of a file
+function CatData(props) {
+  var data = props.data;
+  if (data.length !== 0) {
+    return data.map((row, index) => (
+      <p style={{ margin: 0 }} key={index}>
+        {row}
+      </p>
+    ));
+  } else {
+    return <span>Loading from remote...</span>;
+  }
+}
+
 export function CatFile(props) {
   var rowData = props.data;
   var computerId = props.computerId;
@@ -155,7 +322,7 @@ export function CatFile(props) {
             disableRipple={true}
             variant="outlined"
             fontSize="small"
-            style={{ float: "right" }}
+            style={{ float: "left" }}
             onClick={handleClick}
           >
             Close

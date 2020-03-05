@@ -13,13 +13,11 @@ import { withStyles } from "@material-ui/core/styles";
 import MuiExpansionPanel from "@material-ui/core/ExpansionPanel";
 import MuiExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import MuiExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import DeviceHubIcon from "@material-ui/icons/DeviceHub";
 // import { db } from "../lib/global";
 import { flattenObject, /*lsRemoteDir*/} from "../lib/utils";
-import { LogButton, CatFile } from "./Actions";
+import { LogButton, LinkButton,  CatFile } from "./Actions";
 import { Attr } from "./Elements";
 
 const { clipboard } = window.require("electron");
@@ -374,9 +372,7 @@ export default function NodesTable(props) {
           render: rowData => (
             <React.Fragment>
               <LogButton data={rowData} />
-              <Button disableRipple={true}>
-                <DeviceHubIcon fontSize="small" />
-              </Button>
+              <LinkButton data={rowData} />
             </React.Fragment>
           )
         }
