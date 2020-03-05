@@ -111,8 +111,6 @@ function statusFormat(status, code) {
     }
   } else if (status === undefined) {
     return "";
-  } else {
-    return `${status}`;
   }
 }
 
@@ -351,17 +349,132 @@ export default function NodesTable(props) {
           )
         },
         { title: "Label", field: "label" , render: rowData=>(rowData.label.substring(0,24))},
+        { title: "Material", field: "attributes.material" },
         {
           title: "Status",
           field: "attributes.process_state",
           render: rowData => (
             <React.Fragment>
-              {rowData.node_type.split(".")[0] === "process" && (
+              {rowData.node_type.split(".")
+              
+              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              [0] === "process" && (
                 <React.Fragment>
                   {statusFormat(
                     rowData.attributes.process_state,
                     rowData.attributes.exit_status
                   )}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 </React.Fragment>
               )}
             </React.Fragment>

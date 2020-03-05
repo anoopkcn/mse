@@ -86,14 +86,6 @@ const modalStyle = {
     borderRadius: 5,
     overflow:'scroll',
   }
-  // overlay: {
-  //   position: "fixed",
-  //   top: 0,
-  //   left: 0,
-  //   right: 0,
-  //   bottom: 0,
-  //   backgroundColor: "rgb(128, 128, 128 ,0.15)"
-  // }
 };
 Modal.setAppElement("#root");
 Modal.defaultStyles = modalStyle;

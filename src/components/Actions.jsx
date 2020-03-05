@@ -138,7 +138,7 @@ function LinkDetails(props){
         float:"left",
         position:"fixed"
         }}>
-      <table style={{width:"100%",textAlign: 'left', border: "1px solid rgba(0, 0, 0, .125)"}}>
+      <table style={{width:"100%",textAlign: 'left'}}>
       <thead>
         <tr key={"trhead"}>
           <th key={"label"}>label</th>
