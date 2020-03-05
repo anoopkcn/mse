@@ -2,6 +2,10 @@ const cp = window.require("child_process");
 
 const UNIT_MB = 1024 * 1024;
 
+function createData(property, content) {
+  return { property, content };
+}
+
 export function flattenArray(obj) {
   var farray = [];
   for (var k in obj) {
@@ -14,6 +18,16 @@ export function flattenArray(obj) {
   return farray;
 }
 
+export function pprint(data){
+  var mRows = [];
+    var obj = flattenObject(data);
+    for (var key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        mRows.push(createData(key, obj[key]));
+      }
+    }
+    return mRows;
+}
 // export function flattenObject(obj, prefix = "") {
 //   return Object.keys(obj).reduce((acc, k) => {
 //     const pre = prefix.length ? prefix + "." : "";
