@@ -23,7 +23,7 @@ import { channels } from "../shared/constants";
 import Dashboard from "./Dashboard";
 import Plugins from "./Plugins";
 import Profile from "./Profile";
-import { writeConfig } from "../lib/global";
+import { readConfig } from "../lib/global";
 
 const { ipcRenderer } = window;
 const Mousetrap = window.require("mousetrap");
@@ -134,7 +134,7 @@ export default function App() {
       setAppName(arg.appName);
       setAppVersion(arg.appVersion);
     });
-    writeConfig();
+    readConfig();
   }, []);
 
   const classes = useStyles();

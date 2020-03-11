@@ -61,7 +61,7 @@ export default function Nodes() {
   const [isIntervel, setTimeInterval] = useState(false);
 
   const classes = useStyles();
-  const queryText = "select * from db_dbnode";
+  const queryText = "SELECT * FROM db_dbnode ORDER BY id DESC LIMIT 100";
 
   var fetchInterval = 1000 * intervalTime[selectedIndex];
 
