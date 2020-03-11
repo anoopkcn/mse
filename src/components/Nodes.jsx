@@ -51,7 +51,6 @@ const useStyles = makeStyles(theme => ({
 export default function Nodes() {
   const [data, setData] = useState({});
   const [isLoaded, setLoaded] = useState(false);
-  const [isDatabase, setDatabase] = useState(true);
   const isRemoteDB = false
 
   //for split button
@@ -72,9 +71,9 @@ export default function Nodes() {
     if (isActive) return "secondary";
   };
 
-  const activateDatabase = () => {
-    setDatabase(true);
-  };
+  // const activateDatabase = () => {
+  //   setDatabase(true);
+  // };
 
   const handleMenuItemClick = (event, index) => {
     setSelectedIndex(index);
@@ -101,7 +100,7 @@ export default function Nodes() {
   useEffect(() => {
     let didCancel = false;
     async function fetchData() {
-      if (isDatabase) {
+      if (db !=null) {
         db.query(queryText, (err, res) => {
           if (!err && !didCancel) {
             setData(res.rows);
@@ -111,7 +110,7 @@ export default function Nodes() {
       }
     }
 
-    if (isDatabase) {
+    if (db != null) {
       fetchData();
       if (isIntervel) {
         setInterval(() => {
@@ -122,18 +121,18 @@ export default function Nodes() {
     return () => {
       didCancel = true;
     };
-  }, [isDatabase, fetchInterval, isIntervel]);
+  }, [fetchInterval, isIntervel]);
 
   let nodesTable;
   if (isLoaded && data) {
-    if (isDatabase === false) {
+    if (db == null) {
       nodesTable = (
         <div>
           You have to set the path to aiida config and start the postgress
           server or start remote REST API connection on port 5791{" "}
         </div>
       );
-    } else if (isDatabase && !data.data) {
+    } else if (!data.data) {
       nodesTable = <NodesTable data={data} detailsPanel={isIntervel} />;
     } else {
       nodesTable = (
@@ -171,9 +170,9 @@ export default function Nodes() {
                     disableRipple={true}
                     variant="outlined"
                     className={classes.button}
-                    onClick={activateDatabase}
+                    // onClick={activateDatabase}
                   >
-                    <BallotIcon color={activeColor(isDatabase)} />
+                    <BallotIcon color={activeColor(db)} />
                   </Button>
                   <Button
                     disableRipple={true}

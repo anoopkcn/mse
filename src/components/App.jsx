@@ -134,7 +134,6 @@ export default function App() {
       setAppName(arg.appName);
       setAppVersion(arg.appVersion);
     });
-    readConfig();
   }, []);
 
   const classes = useStyles();
@@ -163,6 +162,7 @@ export default function App() {
   }
 
   console.log(appName, appVersion);
+  readConfig();
 
   let windowView;
   if (isDashboard) {
